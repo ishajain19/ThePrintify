@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ThePrintify | Premium Custom T-Shirts & Mugs – Indian Rupees</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #faf8f4;
+            font-family: 'Inter', sans-serif;
+            color: #2a241f;
+            line-height: 1.4;
+        }
+
+        .bg-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 32px 32px;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e8dfd3;
+            padding-bottom: 1rem;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f3b2c, #b56938);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            color: #9b8268;
+        }
+
+        .header-icons i {
+            font-size: 1.6rem;
+            color: #b56938;
+            margin-left: 0.8rem;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0 1rem;
+            justify-content: center;
+            border-bottom: 2px solid #efe4d8;
+            padding-bottom: 0.8rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            color: #6b5a4a;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn i {
+            font-size: 1rem;
+        }
+
+        .tab-btn.active {
+            background: #b56938;
+            color: white;
+            box-shadow: 0 4px 12px rgba(181, 105, 56, 0.3);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #ede3d8;
+            color: #5a3f2a;
+        }
+
+        /* Filter Bar (within category) */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 1.2rem 0 1.8rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1px solid #e0cfbf;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #5e4a36;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn i {
+            margin-right: 5px;
+            font-size: 0.75rem;
+        }
+
+        .filter-btn.active {
+            background: #b56938;
+            border-color: #b56938;
+            color: white;
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+            border: 1px solid #ece0d2;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+            border-color: #c8aa88;
+        }
+
+        .card-img {
+            background: linear-gradient(145deg, #fcf7f0, #f5ede4);
+            padding: 1.6rem 1rem;
+            text-align: center;
+            font-size: 3rem;
+            color: #b56938;
+        }
+
+        .card-info {
+            padding: 1rem 1.2rem 1.4rem;
+            text-align: center;
+        }
+
+        .product-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-badge {
+            font-size: 0.7rem;
+            background: #f0e7de;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin: 0.5rem 0;
+            color: #9b6e48;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #b56938;
+            font-size: 1.1rem;
+            margin: 6px 0;
+        }
+
+        .mrp {
+            font-size: 0.7rem;
+            text-decoration: line-through;
+            color: #a58f7a;
+            margin-left: 6px;
+        }
+
+        .rating {
+            font-size: 0.75rem;
+            color: #f5b342;
+            margin-top: 4px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 550px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            position: relative;
+            animation: fadeUp 0.2s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: #b56938;
+        }
+
+        .modal-desc {
+            color: #5f4c38;
+            margin: 0.8rem 0;
+            line-height: 1.5;
+        }
+
+        .modal-details {
+            background: #faf5ef;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+
+        .modal-details p {
+            margin: 6px 0;
+        }
+
+        .customize-btn {
+            background: #b56938;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            color: white;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .close-modal {
+            background: #e2d5c8;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 3rem;
+            width: 100%;
+            margin-top: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .collection-banner {
+            background: linear-gradient(135deg, #2f2a24, #45382c);
+            border-radius: 1.5rem;
+            padding: 1rem 1.8rem;
+            margin: 2rem 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            color: #f2e0cf;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e1cfbc;
+            font-size: 0.8rem;
+            color: #a5886c;
+        }
+
+        @media (max-width: 680px) {
+            .container { padding: 1rem; }
+            .tab-btn { padding: 0.4rem 1.2rem; font-size: 0.85rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="container">
+    <header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+    <a href="Tshirts.html">T-Shirts</a>
+    <a href="mugs&cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customized your Design</a>
+    <a href="mug&tshirts.html" class="nav-shop">Shop →</a>
+  </div>
+</header>
+
+    <!-- Main Category Tabs -->
+    <div class="category-tabs" id="categoryTabs">
+        <button class="tab-btn active" data-main="tees"><i class="fas fa-tshirt"></i> T-Shirts</button>
+        <button class="tab-btn" data-main="mugs"><i class="fas fa-mug-hot"></i> Mugs & Cups</button>
+    </div>
+
+    <!-- Dynamic Filter Bar (will be populated by JS) -->
+    <div id="filterBarContainer"></div>
+
+    <!-- Product Grid -->
+    <div id="productsContainer"></div>
+
+    <!-- Collection Banner -->
+    <div class="collection-banner" id="collectionBanner">
+        <span><i class="fas fa-crown"></i> Signature Collections</span>
+        <span>The Professional Edit · Modern Essentials · Signature Series · ThePrintify Pro Line</span>
+    </div>
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-flex">
+      <div class="footer-block">
+        <h4>ThePrintify</h4>
+        <p>Premium Custom Apparel & Drinkware, Crafted for Everyday Use</p>
+        <p>Bangalore, India</p>
+        <p>hello@theprintify.com</p>
+      </div>
+      <div class="footer-block">
+        <h4>Discover</h4>
+        <a href="fullJourney.html">About us</a>
+        <a href="mug&tshirts.html">Our collections</a>
+        <a href="customized.html">Customized Your Design</a>
+      </div>
+      <div class="footer-block">
+        <h4>Resources</h4>
+        <a href="#">Design guide</a>
+        <a href="#">enquiries</a>
+        <a href="#">Shipping policy</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 ThePrintify — Wear Your Vibe. Sip Your Style.
+    </div>
+  </div>
+</footer>
+</div>
+
+<!-- Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-icon" id="modalIcon"><i class="fas fa-tshirt"></i></div>
+            <h2 id="modalName">Product Name</h2>
+        </div>
+        <p id="modalDesc" class="modal-desc">Product description</p>
+        <div class="modal-details" id="modalDetails">
+            <p><strong>💰 Price:</strong> <span id="modalPrice"></span> <span id="modalMrp" style="text-decoration:line-through; margin-left:8px;"></span></p>
+            <p><strong>📦 Material:</strong> <span id="modalMaterial">Cotton</span></p>
+            <p><strong>🎨 Available Sizes:</strong> <span id="modalSizes">S, M, L, XL</span></p>
+            <p><strong>🌈 Colors:</strong> <span id="modalColors">Black, White, Navy</span></p>
+            <p><strong>✨ Features:</strong> <span id="modalFeatures">Moisture-wicking, premium print</span></p>
+            <p><strong>🧼 Care:</strong> <span id="modalCare">Machine wash cold</span></p>
+            <p><strong>📅 Lead Time:</strong> <span id="modalLeadTime">3-5 days</span></p>
+        </div>
+        <button class="customize-btn" id="modalCustomBtn"><i class="fas fa-pen-fancy"></i> Customize Now</button>
+        <button class="close-modal" id="closeModalBtn">Close</button>
+    </div>
+</div>
+
+<script>
+    // ==================== COMBINED DATABASE (T-SHIRTS + MUGS) ====================
+    // T-Shirts Database (Detailed with INR)
+    const tShirts = [
+        { id: 1, name: "Elite Polo", category: "polo", mainType: "tees", icon: "fas fa-user-tie", desc: "Classic pique knit, structured collar, moisture-wicking. Perfect for corporate branding.", shortDesc: "Premium professional polo", price: "₹1,499", mrp: "₹2,499", material: "65% Cotton, 35% Polyester Pique", sizes: ["XS","S","M","L","XL","XXL","3XL"], colors: ["Navy","Black","White","Charcoal","Burgundy"], features: ["Moisture-wicking","Structured collar","Button placket"], care: "Machine wash cold, tumble dry low", leadTime: "3-5 days", rating: 4.8, collection: "The Professional Edit" },
+        { id: 2, name: "OfficeFlex Polo", category: "polo", mainType: "tees", icon: "fas fa-briefcase", desc: "Stretch cotton blend, wrinkle-resistant, modern tailored fit.", price: "₹1,599", mrp: "₹2,699", material: "58% Cotton, 38% Polyester, 4% Spandex", sizes: ["XS","S","M","L","XL","XXL","3XL","4XL"], colors: ["Navy","Black","White","Light Blue","Grey","Maroon"], features: ["4-way stretch","Wrinkle-resistant","Moisture-wicking"], care: "Machine wash cold, hang dry", leadTime: "3-5 days", rating: 4.9, collection: "WorkWear Collection" },
+        { id: 3, name: "SmartWear Polo", category: "polo", mainType: "tees", icon: "fas fa-chalkboard-user", desc: "Soft-touch finish, pearl buttons, premium sheen fabric.", price: "₹1,799", mrp: "₹3,199", material: "92% Micro Modal, 8% Spandex", sizes: ["S","M","L","XL","XXL"], colors: ["Black","Charcoal","Navy","Burgundy","Sage"], features: ["Silky soft","Pearl buttons","Anti-wrinkle"], care: "Gentle machine wash cold", leadTime: "4-6 days", rating: 4.7, collection: "Modern Essentials" },
+        { id: 4, name: "ProStyle Polo", category: "polo", mainType: "tees", icon: "fas fa-chart-line", desc: "Athletic cut, breathable mesh side panels, moisture management.", price: "₹1,699", mrp: "₹2,899", material: "100% Polyester", sizes: ["XS","S","M","L","XL","XXL"], colors: ["Black","Navy","Charcoal","Red","Royal Blue"], features: ["Mesh panels","Quick-dry","UPF 30+"], care: "Machine wash cold", leadTime: "3-5 days", rating: 4.6, collection: "Signature Series" },
+        { id: 5, name: "Signature Collar Tee", category: "polo", mainType: "tees", icon: "fas fa-tag", desc: "Signature knitted collar, tailored cuffs, premium cotton-poly blend.", price: "₹1,899", mrp: "₹3,499", material: "70% Combed Cotton, 28% Polyester, 2% Elastane", sizes: ["S","M","L","XL","XXL","3XL"], colors: ["Black","Navy","White","Grey","Olive","Wine"], features: ["Knitted collar","Ribbed cuffs","Reinforced seams"], care: "Machine wash cold inside out", leadTime: "4-6 days", rating: 4.9, collection: "ThePrintify Pro Line" },
+        { id: 6, name: "Classic Core Tee", category: "crew", mainType: "tees", icon: "fas fa-tshirt", desc: "100% combed ring-spun cotton, crew neck, everyday essential.", price: "₹999", mrp: "₹1,599", material: "100% Combed Ring-Spun Cotton", sizes: ["XS","S","M","L","XL","XXL","3XL","4XL","5XL"], colors: ["White","Black","Navy","Charcoal","Heather Grey","Forest Green"], features: ["Pre-shrunk","Taped seams","Tear-away label"], care: "Machine wash warm", leadTime: "2-4 days", rating: 4.8, collection: "Modern Essentials" },
+        { id: 7, name: "Everyday Essential Tee", category: "crew", mainType: "tees", icon: "fas fa-cloud-sun", desc: "Soft jersey fabric, relaxed fit, perfect for daily wear.", price: "₹899", mrp: "₹1,399", material: "100% Airlume Combed Cotton", sizes: ["S","M","L","XL","XXL","3XL"], colors: ["White","Black","Grey","Navy","Olive","Sage"], features: ["Ultra-soft","Retail fit","Eco-friendly dyes"], care: "Machine wash cold", leadTime: "2-4 days", rating: 4.7, collection: "The Professional Edit" },
+        { id: 8, name: "Urban Henley", category: "henley", mainType: "tees", icon: "fas fa-vest", desc: "Classic 3-button placket, soft cotton blend, casual elegance.", price: "₹1,399", mrp: "₹2,299", material: "60% Cotton, 40% Modal", sizes: ["S","M","L","XL","XXL"], colors: ["Navy","Charcoal","Olive","Burgundy","Black"], features: ["3-button placket","Self-fabric collar","Soft touch"], care: "Machine wash cold, hang dry", leadTime: "3-5 days", rating: 4.7, collection: "Modern Essentials" },
+        { id: 9, name: "ChicFit Tee", category: "womens", mainType: "tees", icon: "fas fa-female", desc: "Tailored feminine cut, soft modal fabric, office-ready style.", price: "₹1,199", mrp: "₹1,999", material: "48% Modal, 47% Cotton, 5% Spandex", sizes: ["XS","S","M","L","XL","XXL"], colors: ["White","Black","Navy","Blush Pink","Sage Green"], features: ["Feminine cut","4-way stretch","Professional finish"], care: "Machine wash cold", leadTime: "3-5 days", rating: 4.8, collection: "The Professional Edit" },
+        { id: 10, name: "BrandMark Tee", category: "corporate", mainType: "tees", icon: "fas fa-trademark", desc: "Heavyweight cotton, perfect for screen printing, tear-away label.", price: "₹1,049", mrp: "₹1,599", material: "100% Cotton Heavyweight", sizes: ["S","M","L","XL","XXL","3XL","4XL","5XL"], colors: ["White","Black","Navy","Charcoal","Red"], features: ["Tear-away label","Perfect for printing","Reinforced collar"], care: "Machine wash warm", leadTime: "2-4 days", rating: 4.7, collection: "WorkWear Collection" },
+        { id: 11, name: "Street Luxe Tee", category: "oversize", mainType: "tees", icon: "fas fa-crown", desc: "Oversized silhouette, premium heavy cotton, dropped shoulders.", price: "₹1,699", mrp: "₹2,899", material: "100% Cotton Heavyweight", sizes: ["S","M","L","XL","XXL","3XL"], colors: ["Black","White","Charcoal","Navy","Olive"], features: ["Dropped shoulders","Boxy silhouette","260 GSM"], care: "Machine wash cold", leadTime: "3-5 days", rating: 4.8, collection: "Signature Series" },
+        { id: 12, name: "Modern Drop Tee", category: "oversize", mainType: "tees", icon: "fas fa-arrow-down", desc: "Extended length, side slits, premium heavyweight fabric.", price: "₹1,749", mrp: "₹3,099", material: "100% Cotton Heavyweight", sizes: ["S","M","L","XL","XXL"], colors: ["Black","White","Charcoal","Navy","Burgundy"], features: ["Extended length","Side slits","280 GSM"], care: "Machine wash cold", leadTime: "4-6 days", rating: 4.8, collection: "WorkWear Collection" }
+    ];
+
+    // Mugs Database (Category-wise detailed)
+    const mugs = [
+        { id: 101, name: "Classic Sip Mug", category: "classic", mainType: "mugs", icon: "fas fa-mug-hot", desc: "Smooth ceramic, timeless shape. Dishwasher safe.", price: "₹449", mrp: "₹699", material: "Premium Ceramic", sizes: ["11oz"], colors: ["White","Black","Navy","Red"], features: ["Dishwasher safe","Microwave safe","Glossy finish"], care: "Dishwasher safe", leadTime: "2-3 days", rating: 4.7, collection: "Classic Collection" },
+        { id: 102, name: "Magic Reveal Mug", category: "magic", mainType: "mugs", icon: "fas fa-temperature-high", desc: "Heat-activated artwork appears with hot liquid. Surprise design!", price: "₹599", mrp: "₹999", material: "Heat-Sensitive Ceramic", sizes: ["11oz"], colors: ["Black Magic","White Magic"], features: ["Heat activated","Color changing","Hidden message"], care: "Hand wash recommended", leadTime: "3-4 days", rating: 4.9, collection: "Magic Series" },
+        { id: 103, name: "GoSip Travel Mug", category: "travel", mainType: "mugs", icon: "fas fa-road", desc: "Leak-proof lid, stainless steel core, keeps drinks hot for hours.", price: "₹799", mrp: "₹1,299", material: "Stainless Steel + BPA-Free Lid", sizes: ["12oz","16oz"], colors: ["Black","Silver","Navy","Burgundy"], features: ["Vacuum insulated","Leak-proof","Car cup holder fit"], care: "Hand wash only", leadTime: "3-5 days", rating: 4.8, collection: "Travel Collection" },
+        { id: 104, name: "Crystal Clear Mug", category: "glass", mainType: "mugs", icon: "fas fa-wine-glass-alt", desc: "Borosilicate glass, crystal transparent, heat resistant.", price: "₹549", mrp: "₹899", material: "Borosilicate Glass", sizes: ["10oz","12oz"], colors: ["Clear","Smoke"], features: ["Thermal shock resistant","Crystal clear","Elegant"], care: "Hand wash recommended", leadTime: "2-3 days", rating: 4.6, collection: "Glass Collection" },
+        { id: 105, name: "Matte Black Mug", category: "matte", mainType: "mugs", icon: "fas fa-palette", desc: "Sleek matte finish, vibrant print contrast, modern aesthetic.", price: "₹499", mrp: "₹799", material: "Premium Ceramic", sizes: ["11oz","15oz"], colors: ["Matte Black","Matte Navy","Matte Grey"], features: ["Matte finish","Scratch resistant","Modern look"], care: "Dishwasher safe", leadTime: "2-3 days", rating: 4.7, collection: "Matte Collection" },
+        { id: 106, name: "Love Pair Mugs", category: "couple", mainType: "mugs", icon: "fas fa-heart", desc: "Set of two mugs, his & hers heart design. Perfect anniversary gift.", price: "₹999", mrp: "₹1,499", material: "Premium Ceramic", sizes: ["11oz each"], colors: ["White/Red","Black/Red"], features: ["Set of 2","Gift box","Matching design"], care: "Dishwasher safe", leadTime: "3-4 days", rating: 4.9, collection: "Gift Collection" },
+        { id: 107, name: "Memory Mug", category: "photo", mainType: "mugs", icon: "fas fa-camera-retro", desc: "Print any photo, full wrap print. Your story in every sip.", price: "₹599", mrp: "₹999", material: "Premium Ceramic", sizes: ["11oz"], colors: ["White"], features: ["Full wrap print","Photo quality","Custom text"], care: "Hand wash preferred", leadTime: "3-4 days", rating: 4.8, collection: "Custom Collection" },
+        { id: 108, name: "Printify Originals", category: "collection", mainType: "mugs", icon: "fas fa-certificate", desc: "Signature series, exclusive patterns from our artists.", price: "₹649", mrp: "₹1,099", material: "Premium Ceramic", sizes: ["11oz","15oz"], colors: ["Artistic Multi","Abstract Design"], features: ["Artist series","Limited edition","Unique art"], care: "Dishwasher safe", leadTime: "3-5 days", rating: 4.8, collection: "Signature Series" },
+        { id: 109, name: "Wander Cup", category: "travel", mainType: "mugs", icon: "fas fa-hiking", desc: "12oz vacuum insulated travel mug, keeps temp for hours.", price: "₹849", mrp: "₹1,399", material: "Stainless Steel", sizes: ["12oz"], colors: ["Black","Silver","Olive","Navy"], features: ["Double-wall insulation","Splash resistant","Durable"], care: "Hand wash", leadTime: "3-4 days", rating: 4.7, collection: "Travel Collection" },
+        { id: 110, name: "Sip & Go Mug", category: "travel", mainType: "mugs", icon: "fas fa-bus", desc: "One-handed flip lid, car cup holder fit, perfect for commuters.", price: "₹699", mrp: "₹1,199", material: "Stainless Steel", sizes: ["12oz","16oz"], colors: ["Black","White","Navy","Red"], features: ["Flip lid","Cup holder compatible","Leak resistant"], care: "Hand wash only", leadTime: "3-4 days", rating: 4.6, collection: "Travel Collection" }
+    ];
+
+    const allProducts = [...tShirts, ...mugs];
+    
+    let activeMainCategory = "tees";   // "tees" or "mugs"
+    let activeSubFilter = "all";
+    
+    // Get unique sub-categories for each main type
+    function getSubCategories(mainType) {
+        const products = mainType === "tees" ? tShirts : mugs;
+        const cats = [...new Set(products.map(p => p.category))];
+        return [{ id: "all", name: "All", icon: "fa-border-all" }, ...cats.map(c => ({ id: c, name: c.charAt(0).toUpperCase() + c.slice(1), icon: getCategoryIcon(c) }))];
+    }
+    
+    function getCategoryIcon(cat) {
+        const icons = { polo: "fa-user-tie", crew: "fa-tshirt", henley: "fa-vest", womens: "fa-female", corporate: "fa-building", oversize: "fa-expand", classic: "fa-mug-hot", magic: "fa-temperature-high", travel: "fa-road", glass: "fa-wine-glass-alt", matte: "fa-palette", couple: "fa-heart", photo: "fa-camera", collection: "fa-certificate" };
+        return icons[cat] || "fa-tag";
+    }
+    
+    function renderFilterBar() {
+        const subCats = getSubCategories(activeMainCategory);
+        const container = document.getElementById("filterBarContainer");
+        if (!container) return;
+        let html = `<div class="filter-bar">`;
+        subCats.forEach(cat => {
+            const activeClass = activeSubFilter === cat.id ? "active" : "";
+            html += `<button class="filter-btn ${activeClass}" data-filter="${cat.id}"><i class="fas ${cat.icon}"></i> ${cat.name}</button>`;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+        
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                activeSubFilter = btn.dataset.filter;
+                renderFilterBar();
+                renderProducts();
+            });
+        });
+    }
+    
+    function renderProducts() {
+        let products = activeMainCategory === "tees" ? tShirts : mugs;
+        if (activeSubFilter !== "all") {
+            products = products.filter(p => p.category === activeSubFilter);
+        }
+        
+        const container = document.getElementById("productsContainer");
+        if (products.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:3rem;"><i class="fas fa-box-open" style="font-size:3rem; color:#b56938;"></i><p>No products in this category. Explore our collection!</p></div>`;
+            return;
+        }
+        
+        let html = `<div class="products-grid">`;
+        products.forEach(p => {
+            const badgeName = p.category.charAt(0).toUpperCase() + p.category.slice(1);
+            html += `
+                <div class="product-card" data-id="${p.id}" data-main="${p.mainType}">
+                    <div class="card-img">
+                        <i class="${p.icon}"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-badge">${badgeName}</div>
+                        <div class="price">${p.price} <span class="mrp">${p.mrp}</span></div>
+                        <div class="rating"><i class="fas fa-star"></i> ${p.rating} (${Math.floor(Math.random() * 500) + 100}+)</div>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+        
+        document.querySelectorAll(".product-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const id = parseInt(card.dataset.id);
+                const main = card.dataset.main;
+                const product = allProducts.find(p => p.id === id && p.mainType === main);
+                if (product) openModal(product);
+            });
+        });
+    }
+    
+    function openModal(product) {
+        document.getElementById("modalIcon").innerHTML = `<i class="${product.icon}" style="font-size:3rem;"></i>`;
+        document.getElementById("modalName").innerText = product.name;
+        document.getElementById("modalDesc").innerText = product.desc;
+        document.getElementById("modalPrice").innerHTML = product.price;
+        document.getElementById("modalMrp").innerHTML = product.mrp || "";
+        document.getElementById("modalMaterial").innerText = product.material || "Premium Quality";
+        document.getElementById("modalSizes").innerText = product.sizes ? product.sizes.join(", ") : "Standard Size";
+        document.getElementById("modalColors").innerText = product.colors ? product.colors.join(", ") : "Multiple options";
+        document.getElementById("modalFeatures").innerText = product.features ? product.features.join(", ") : "Premium print, custom ready";
+        document.getElementById("modalCare").innerText = product.care || "Hand wash recommended";
+        document.getElementById("modalLeadTime").innerText = product.leadTime || "3-5 business days";
+        document.getElementById("productModal").style.display = "flex";
+        
+        document.getElementById("modalCustomBtn").onclick = () => {
+            alert(`✨ Customize your ${product.name}!\n\nAdd your logo, text, photo, or unique design. Embroidery, screen print, DTF, and photo printing available.\n\nThePrintify brings your vision to life with premium quality.`);
+            closeModal();
+        };
+    }
+    
+    function closeModal() {
+        document.getElementById("productModal").style.display = "none";
+    }
+    
+    // Tab switching
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            activeMainCategory = btn.dataset.main;
+            activeSubFilter = "all";
+            renderFilterBar();
+            renderProducts();
+        });
+    });
+    
+    // Modal close
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+    window.addEventListener("click", (e) => {
+        const modal = document.getElementById("productModal");
+        if (e.target === modal) closeModal();
+    });
+    
+    // Initial Render
+    renderFilterBar();
+    renderProducts();
+</script>
+</body>
+</html>

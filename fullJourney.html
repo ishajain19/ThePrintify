@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ThePrintify | Custom Stories, Worn & Held</title>
+    <!-- Google Fonts + simple reset & modern feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #faf7f2;   /* warm paper-like base */
+            font-family: 'Inter', sans-serif;
+            color: #1e1b1a;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        /* subtle grain texture overlay (optional warmth) */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* header / brand */
+        .brand {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+            border-bottom: 2px solid rgba(0,0,0,0.05);
+            padding-bottom: 1.2rem;
+        }
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #2b2b28 0%, #7b5e3b 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        .tagline {
+            font-weight: 400;
+            color: #7a6a5c;
+            margin-top: 0.25rem;
+            font-size: 0.9rem;
+        }
+        .header-icon {
+            font-size: 2rem;
+            color: #b87c4f;
+        }
+
+        /* hero card style — full story block */
+        .story-card {
+            background: #ffffffdd;
+            backdrop-filter: blur(2px);
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.02);
+            padding: 2.8rem 2.5rem;
+            margin-bottom: 3rem;
+            transition: all 0.2s ease;
+            border: 1px solid #f0e4d4;
+        }
+
+        .main-message {
+            font-size: 1.65rem;
+            font-weight: 600;
+            line-height: 1.35;
+            margin-bottom: 1.8rem;
+            color: #2c241e;
+            border-left: 5px solid #e2b285;
+            padding-left: 1.3rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #3a2e27;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .mission-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .quality-block {
+            flex: 1;
+            min-width: 220px;
+            background: #fef9f2;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #f3e5d8;
+        }
+        .quality-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 30px -12px rgba(0,0,0,0.1);
+            background: #fffbf6;
+        }
+        .block-icon {
+            font-size: 2.2rem;
+            color: #c28a56;
+            margin-bottom: 1rem;
+        }
+        .quality-block h3 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .quality-block p {
+            color: #5a4a3a;
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+
+        /* quote / special gift highlight */
+        .highlight {
+            background: linear-gradient(115deg, #f6ede4 0%, #faf3ea 100%);
+            border-radius: 1.8rem;
+            padding: 2rem 2rem;
+            margin: 2rem 0 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+        .highlight-text {
+            flex: 2;
+        }
+        .highlight-text p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            font-style: italic;
+            color: #5c3f2a;
+        }
+        .highlight-text span {
+            font-weight: 800;
+            color: #b1622c;
+        }
+        .highlight-icon {
+            flex: 0 0 auto;
+            font-size: 3rem;
+            background: #fff0e2;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            color: #b66f3c;
+        }
+
+        /* cta / experience row */
+        .experience-row {
+            background: #2e2923;
+            border-radius: 2rem;
+            padding: 2rem 2.5rem;
+            color: #f3ede7;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .exp-text h2 {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.3rem;
+        }
+        .exp-text p {
+            opacity: 0.85;
+            font-weight: 400;
+        }
+        .cta-btn {
+            background: #f1c49b;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 3rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #2a211c;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .cta-btn i {
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover {
+            background: #e7b17a;
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .cta-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* product preview mock / decorative flex */
+        .product-showcase {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0 1rem;
+            flex-wrap: wrap;
+        }
+        .product-card {
+            background: #ffffffd9;
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 1rem 1.5rem 1.2rem;
+            text-align: center;
+            width: 170px;
+            transition: all 0.2s;
+            border: 1px solid #eedbcb;
+        }
+        .product-card i {
+            font-size: 3rem;
+            color: #b87c4f;
+            margin-bottom: 0.5rem;
+        }
+        .product-card p {
+            font-weight: 600;
+            margin-top: 0.3rem;
+            font-size: 0.9rem;
+        }
+        .product-card small {
+            color: #7b6b5c;
+            font-size: 0.7rem;
+        }
+
+        /* dynamic JavaScript interactive section */
+        .inspire-section {
+            margin-top: 3.5rem;
+            background: #fff8f2;
+            border-radius: 1.8rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.02);
+            border: 1px solid #f3e3d4;
+        }
+        .inspire-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .quote-generator {
+            margin: 1.5rem auto;
+            max-width: 500px;
+        }
+        .dynamic-quote {
+            background: #e9dfd3;
+            padding: 1rem 1.8rem;
+            border-radius: 3rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #3f2d1f;
+            margin-bottom: 1rem;
+            transition: 0.2s;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+        }
+        .inspire-btn {
+            background: transparent;
+            border: 2px solid #c68e5a;
+            padding: 0.6rem 1.6rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            color: #5f3e24;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .inspire-btn:hover {
+            background: #c68e5a;
+            color: white;
+            border-color: #c68e5a;
+        }
+        .counter-footnote {
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            color: #9b897a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2d4c8;
+            font-size: 0.8rem;
+            color: #947e6b;
+        }
+        @media (max-width: 750px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .story-card {
+                padding: 1.8rem;
+            }
+            .main-message {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+   
+    <a href="Tshirts.html">T-Shirts</a>
+    <a href="mugs&cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customized your Design</a>
+    <a href="mug&tshirts.html" class="nav-shop">Shop →</a>
+  </div>
+</header>
+
+    <!-- main story block -->
+    <div class="story-card">
+        <div class="main-message">
+            At ThePrintify, we believe that every product should tell a story.
+        </div>
+        <div class="intro-text">
+           At ThePrintify, we believe that every product should tell a story. We specialize in creating high-quality customized T-shirts and mugs that reflect your personality, creativity, and style.
+
+           Our mission is simple — to turn your ideas into designs you can wear and use every day. Whether it’s a unique quote, a memorable photo, or a creative concept, we bring it to life with precision and premium printing.
+
+            We focus on quality, comfort, and durability, ensuring that every T-shirt feels great and every mug adds a personal touch to your daily routine. From casual wear to special gifts, our products are crafted to make every moment more meaningful.
+
+            At ThePrintify, customization is not just a service — it’s an experience.
+            We are here to help you express yourself, stand out, and create something truly yours.
+        </div>
+
+        <!-- quality & comfort / durability grid -->
+        <div class="mission-grid">
+            <div class="quality-block">
+                <div class="block-icon"><i class="fas fa-check-circle"></i></div>
+                <h3>Quality & Precision</h3>
+                <p>Premium printing techniques ensure vibrant, lasting results. Every detail matters — from thread to finish.</p>
+            </div>
+            <div class="quality-block">
+                <div class="block-icon"><i class="fas fa-hand-sparkles"></i></div>
+                <h3>Comfort & Durability</h3>
+                <p>Soft, breathable fabrics and high-grade ceramics built for daily joy. T-shirts that feel great, mugs that endure.</p>
+            </div>
+            <div class="quality-block">
+                <div class="block-icon"><i class="fas fa-gift"></i></div>
+                <h3>Special Gifts</h3>
+                <p>From casual wear to heartfelt presents, our products make every moment more meaningful.</p>
+            </div>
+        </div>
+
+        <!-- custom highlight quote -->
+        <div class="highlight">
+            <div class="highlight-text">
+                <p>✦ <span>“Customization is not just a service — it’s an experience.”</span> ✦</p>
+                <p style="font-size:0.9rem; margin-top:8px;">We are here to help you express yourself, stand out, and create something truly yours.</p>
+            </div>
+            <div class="highlight-icon">
+                <i class="fas fa-feather-alt"></i>
+            </div>
+        </div>
+
+        <!-- product showcase mini (visual) -->
+        <div class="product-showcase">
+            <div class="product-card">
+                <i class="fas fa-tshirt"></i>
+                <p>Custom T-Shirts</p>
+                <small>organic & streetwear</small>
+            </div>
+            <div class="product-card">
+                <i class="fas fa-mug-hot"></i>
+                <p>Ceramic Mugs</p>
+                <small>dishwasher safe</small>
+            </div>
+            <div class="product-card">
+                <i class="fas fa-pen-fancy"></i>
+                <p>Your Design</p>
+                <small>quote / photo / art</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Experience section (with javascript interaction) -->
+    <div class="experience-row">
+        <div class="exp-text">
+            <h2><i class="fas fa-star-of-life"></i> Create something truly yours</h2>
+            <p>Ready to turn your ideas into wearable art or daily ritual pieces?</p>
+        </div>
+        <button class="cta-btn" id="inspireMeBtn"><i class="fas fa-magic"></i> Get inspired <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <!-- Interactive javascript section: random creative quote & custom counter -->
+    <div class="inspire-section" id="interactiveZone">
+        <h3><i class="fas fa-comment-dots"></i> Wear What Defines You </h3>
+        <div class="quote-generator">
+            <div class="dynamic-quote" id="randomQuoteBox">
+                “Every T-shirt tells a moment, every mug holds a memory.”
+            </div>
+            <button class="inspire-btn" id="newIdeaBtn"><i class="fas fa-sync-alt"></i> Fresh inspiration</button>
+        </div>
+        <div class="counter-footnote" id="interactionCounter">
+            ✨ click count: <span id="inspireCount">0</span> · spark your creativity
+        </div>
+    </div>
+
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-flex">
+      <div class="footer-block">
+        <h4>ThePrintify</h4>
+        <p>Premium Custom Apparel & Drinkware, Crafted for Everyday Use</p>
+        <p>Bangalore, India</p>
+        <p>hello@theprintify.com</p>
+      </div>
+      <div class="footer-block">
+        <h4>Discover</h4>
+        <a href="fullJourney.html">About us</a>
+        <a href="mug&tshirts.html">Our collections</a>
+        <a href="customized.html">Customized Your Design</a>
+      </div>
+      <div class="footer-block">
+        <h4>Resources</h4>
+        <a href="#">Design guide</a>
+        <a href="#">enquiries</a>
+        <a href="#">Shipping policy</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 ThePrintify — Wear Your Vibe. Sip Your Style.
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+    (function(){
+        // ---- Creative quote library reflecting ThePrintify spirit ----
+        const quoteLibrary = [
+            "“Wear your story. Sip your memory.” — ThePrintify",
+            "“Your creativity, our craft. Every design is personal.”",
+            "“From a simple quote to a masterpiece — we print with soul.”",
+            "“Turn moments into keepsakes, one custom tee at a time.”",
+            "“Mugs that spark joy, tees that start conversations.”",
+            "“Express yourself boldly: let the world see your vision.”",
+            "“Precision meets passion — your ideas deserve the best.”",
+            "“Customization isn’t just a service, it’s your identity.”",
+            "“Every product we make becomes a part of your daily story.”",
+            "“Unleash authenticity: unique designs for unique people.”"
+        ];
+        
+        // Additional quotes from original text essence
+        const originalTextFragments = [
+            "“Turn your ideas into designs you can wear and use every day.”",
+            "“Unique quote, memorable photo — we bring it to life.”",
+            "“Quality, comfort, durability — crafted to make every moment meaningful.”",
+            "“Stand out, create something truly yours — ThePrintify experience.”"
+        ];
+        
+        const fullQuotes = [...quoteLibrary, ...originalTextFragments];
+        
+        // DOM elements
+        const quoteBox = document.getElementById('randomQuoteBox');
+        const newIdeaBtn = document.getElementById('newIdeaBtn');
+        const inspireMainBtn = document.getElementById('inspireMeBtn');
+        const counterSpan = document.getElementById('inspireCount');
+        
+        let clickCount = 0;
+        
+        // update counter and quote
+        function updateCounterAndQuote(newQuote = null) {
+            clickCount++;
+            counterSpan.innerText = clickCount;
+            // save to localStorage for fun (optional persistence)
+            localStorage.setItem('printifyInspireCount', clickCount);
+            
+            if(newQuote) {
+                quoteBox.innerText = newQuote;
+            } else {
+                // random quote from fullQuotes
+                const randomIndex = Math.floor(Math.random() * fullQuotes.length);
+                quoteBox.innerText = fullQuotes[randomIndex];
+            }
+            // add micro animation
+            quoteBox.style.transform = "scale(1.01)";
+            setTimeout(() => { if(quoteBox) quoteBox.style.transform = ""; }, 200);
+        }
+        
+        // load count from localStorage if exists
+        function loadCounter() {
+            const saved = localStorage.getItem('printifyInspireCount');
+            if(saved !== null && !isNaN(parseInt(saved))) {
+                clickCount = parseInt(saved);
+                counterSpan.innerText = clickCount;
+            } else {
+                clickCount = 0;
+                counterSpan.innerText = "0";
+            }
+        }
+        
+        // set random quote on load
+        function setRandomQuoteOnLoad() {
+            const randomIdx = Math.floor(Math.random() * fullQuotes.length);
+            quoteBox.innerText = fullQuotes[randomIdx];
+        }
+        
+        // Event: new idea button - fresh random quote + counter increment
+        newIdeaBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const randomIndex = Math.floor(Math.random() * fullQuotes.length);
+            const freshQuote = fullQuotes[randomIndex];
+            updateCounterAndQuote(freshQuote);
+        });
+        
+        // Event: "Get inspired" main button (experience row) - shows a special quote and increments and also can scroll a bit into interactive zone
+        inspireMainBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // pick a more "mission-focused" quote from array
+            const missionQuotes = [
+                "“We focus on quality, comfort and durability — because you deserve it.”",
+                "“Your personality, creativity, style — printed with precision.”",
+                "“At ThePrintify, customization is an experience, not just a service.”",
+                "“Turn your ideas into reality. Premium T-shirts and mugs await.”",
+                "“Every mug adds a personal touch to your daily routine.”"
+            ];
+            const chosen = missionQuotes[Math.floor(Math.random() * missionQuotes.length)];
+            updateCounterAndQuote(chosen);
+            // smooth scroll to the interactive section to see the fresh quote
+            document.getElementById('interactiveZone').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // subtle visual feedback on button
+            const btn = inspireMainBtn;
+            btn.style.transform = "scale(0.97)";
+            setTimeout(() => { if(btn) btn.style.transform = ""; }, 150);
+        });
+        
+        // Load counter and set initial quote from storage or random
+        loadCounter();
+        setRandomQuoteOnLoad();
+        
+        // additional small interaction: double-click on story-card shows alert with original message? but just a tiny playful effect
+        const storyCardDiv = document.querySelector('.story-card');
+        if(storyCardDiv) {
+            storyCardDiv.addEventListener('dblclick', () => {
+                // show a toast-like message (using small alert is fine but we can console)
+                const hiddenMsg = document.createElement('div');
+                hiddenMsg.innerText = "✨ Every product tells a story — make yours with ThePrintify! ✨";
+                hiddenMsg.style.position = 'fixed';
+                hiddenMsg.style.bottom = '20px';
+                hiddenMsg.style.left = '50%';
+                hiddenMsg.style.transform = 'translateX(-50%)';
+                hiddenMsg.style.backgroundColor = '#2e2923';
+                hiddenMsg.style.color = '#f2e0d0';
+                hiddenMsg.style.padding = '12px 24px';
+                hiddenMsg.style.borderRadius = '40px';
+                hiddenMsg.style.fontSize = '0.85rem';
+                hiddenMsg.style.fontWeight = '500';
+                hiddenMsg.style.zIndex = '999';
+                hiddenMsg.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+                hiddenMsg.style.backdropFilter = 'blur(8px)';
+                document.body.appendChild(hiddenMsg);
+                setTimeout(() => {
+                    hiddenMsg.style.opacity = '0';
+                    setTimeout(() => hiddenMsg.remove(), 400);
+                }, 2000);
+            });
+        }
+        
+        // additional interactive hover effect for product cards and quality blocks already have css
+        // optional console log to indicate readiness
+        console.log("ThePrintify interactive story ready — express yourself!");
+    })();
+</script>
+</body>
+</html>

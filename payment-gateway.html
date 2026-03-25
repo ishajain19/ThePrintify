@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>ThePrintify | Secure Checkout - Payment Gateway</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fefaf5 0%, #f9efe4 100%);
+      font-family: 'Inter', sans-serif;
+      color: #2a241f;
+      min-height: 100vh;
+    }
+
+    /* Payment Container */
+    .payment-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header */
+    .payment-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .payment-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f3b2c, #b56938);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .payment-header p {
+      color: #7f6b58;
+      font-size: 0.95rem;
+    }
+
+    .secure-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #e8f0e6;
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      color: #2e7d32;
+      margin-top: 1rem;
+    }
+
+    /* Two Column Layout */
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    /* Left Column - Payment Form */
+    .payment-form-section {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid #f0e4d8;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #2a241f;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title i {
+      color: #b56938;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #5a4a3a;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #e0cfbf;
+      border-radius: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      background: #fff;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #b56938;
+      box-shadow: 0 0 0 3px rgba(181, 105, 56, 0.1);
+    }
+
+    /* Payment Methods */
+    .payment-methods {
+      margin: 1.5rem 0;
+    }
+
+    .payment-option {
+      border: 2px solid #e0cfbf;
+      border-radius: 0.8rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .payment-option:hover {
+      border-color: #b56938;
+      background: #fefaf5;
+    }
+
+    .payment-option.selected {
+      border-color: #b56938;
+      background: #fff8f0;
+    }
+
+    .payment-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #b56938;
+    }
+
+    .payment-icon {
+      font-size: 1.5rem;
+      width: 40px;
+      text-align: center;
+    }
+
+    .payment-details {
+      flex: 1;
+    }
+
+    .payment-details h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .payment-details p {
+      font-size: 0.75rem;
+      color: #7f6b58;
+    }
+
+    /* UPI Input */
+    .upi-input {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .upi-input.active {
+      display: block;
+    }
+
+    /* Card Input Row */
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Right Column - Order Summary */
+    .order-summary-section {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border: 1px solid #f0e4d8;
+      height: fit-content;
+      position: sticky;
+      top: 2rem;
+    }
+
+    .summary-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0e4d8;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .summary-total {
+      border-top: 2px solid #f0e4d8;
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .total-amount {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #b56938;
+    }
+
+    .gst-info {
+      font-size: 0.7rem;
+      color: #7f6b58;
+      margin-top: 0.5rem;
+      text-align: right;
+    }
+
+    /* Checkout Button */
+    .pay-btn {
+      width: 100%;
+      background: #b56938;
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .pay-btn:hover {
+      background: #9a522e;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(181, 105, 56, 0.3);
+    }
+
+    /* Back Link */
+    .back-link {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .back-link a {
+      color: #b56938;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 450px;
+      width: 90%;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      animation: fadeUp 0.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-icon {
+      font-size: 4rem;
+      color: #4caf50;
+      margin-bottom: 1rem;
+    }
+
+    .modal h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal p {
+      color: #7f6b58;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-btn {
+      background: #b56938;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 0.5rem;
+    }
+
+    .modal-btn-secondary {
+      background: #e0cfbf;
+      color: #5a4a3a;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .payment-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .payment-container {
+        margin: 1rem auto;
+      }
+      
+      .payment-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .form-row, .card-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+    <a href="Tshirts.html">T-Shirts</a>
+    <a href="mugs&cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customized your Design</a>
+    <a href="mug&tshirts.html" class="nav-shop">Shop →</a>
+  </div>
+</header>
+<br><br><br>
+  <div class="payment-grid">
+    <!-- Left Column - Payment Form -->
+    <div class="payment-form-section">
+      <div class="section-title">
+        <i class="fas fa-credit-card"></i>
+        <span>Payment Information</span>
+      </div>
+
+      <!-- Contact Information -->
+      <form id="paymentForm">
+        <div class="form-group">
+          <label>Full Name <span style="color: #b56938;">*</span></label>
+          <input type="text" id="fullName" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address <span style="color: #b56938;">*</span></label>
+          <input type="email" id="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number <span style="color: #b56938;">*</span></label>
+          <input type="tel" id="phone" placeholder="10-digit mobile number" required>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="section-title" style="margin-top: 1rem;">
+          <i class="fas fa-wallet"></i>
+          <span>Select Payment Method</span>
+        </div>
+
+        <div class="payment-methods">
+          <div class="payment-option selected" data-method="card">
+            <input type="radio" name="paymentMethod" value="card" checked>
+            <div class="payment-icon"><i class="fas fa-credit-card"></i></div>
+            <div class="payment-details">
+              <h4>Credit / Debit Card</h4>
+              <p>Visa, Mastercard, RuPay, Amex</p>
+            </div>
+          </div>
+
+          <div class="payment-option" data-method="upi">
+            <input type="radio" name="paymentMethod" value="upi">
+            <div class="payment-icon"><i class="fas fa-mobile-alt"></i></div>
+            <div class="payment-details">
+              <h4>UPI / BHIM</h4>
+              <p>Google Pay, PhonePe, Paytm, BHIM</p>
+            </div>
+          </div>
+
+          <div class="payment-option" data-method="netbanking">
+            <input type="radio" name="paymentMethod" value="netbanking">
+            <div class="payment-icon"><i class="fas fa-university"></i></div>
+            <div class="payment-details">
+              <h4>Net Banking</h4>
+              <p>All major Indian banks</p>
+            </div>
+          </div>
+
+          <div class="payment-option" data-method="cod">
+            <input type="radio" name="paymentMethod" value="cod">
+            <div class="payment-icon"><i class="fas fa-rupee-sign"></i></div>
+            <div class="payment-details">
+              <h4>Cash on Delivery</h4>
+              <p>Pay when you receive</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- UPI Input (Dynamic) -->
+        <div class="upi-input" id="upiInput">
+          <label>UPI ID <span style="color: #b56938;">*</span></label>
+          <input type="text" id="upiId" placeholder="username@okhdfcbank / @paytm">
+        </div>
+
+        <!-- Card Details (Default Visible) -->
+        <div id="cardDetails">
+          <div class="form-group">
+            <label>Card Number <span style="color: #b56938;">*</span></label>
+            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+          </div>
+          <div class="card-row">
+            <div class="form-group">
+              <label>Expiry Date <span style="color: #b56938;">*</span></label>
+              <input type="text" id="expiryDate" placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+              <label>CVV <span style="color: #b56938;">*</span></label>
+              <input type="password" id="cvv" placeholder="123" maxlength="4">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Cardholder Name <span style="color: #b56938;">*</span></label>
+            <input type="text" id="cardName" placeholder="Name on card">
+          </div>
+        </div>
+
+        <!-- Net Banking Select (Hidden by Default) -->
+        <div id="netbankingDetails" style="display: none;">
+          <div class="form-group">
+            <label>Select Bank <span style="color: #b56938;">*</span></label>
+            <select id="bankSelect">
+              <option value="">Select your bank</option>
+              <option value="sbi">State Bank of India</option>
+              <option value="hdfc">HDFC Bank</option>
+              <option value="icici">ICICI Bank</option>
+              <option value="axis">Axis Bank</option>
+              <option value="kotak">Kotak Mahindra Bank</option>
+              <option value="yes">Yes Bank</option>
+              <option value="pnb">Punjab National Bank</option>
+              <option value="other">Other Bank</option>
+            </select>
+          </div>
+        </div>
+
+        <input type="hidden" id="orderAmount" value="">
+      </form>
+    </div>
+
+    <!-- Right Column - Order Summary -->
+    <div class="order-summary-section">
+      <div class="summary-title">
+        <i class="fas fa-receipt"></i> Order Summary
+      </div>
+      
+      <div class="summary-item">
+        <span>Subtotal</span>
+        <span id="subtotal">₹0.00</span>
+      </div>
+      <div class="summary-item">
+        <span>Shipping Charges</span>
+        <span>₹0.00</span>
+      </div>
+      <div class="summary-item">
+        <span>GST (5%)</span>
+        <span id="gstAmount">₹0.00</span>
+      </div>
+      <div class="summary-total">
+        <div class="summary-item" style="margin-bottom: 0;">
+          <strong>Total Amount</strong>
+          <strong class="total-amount" id="totalAmount">₹0.00</strong>
+        </div>
+        <div class="gst-info">
+          <i class="fas fa-file-invoice"></i> GST Invoice will be emailed
+        </div>
+      </div>
+
+      <button class="pay-btn" id="payNowBtn">
+        <i class="fas fa-lock"></i> Pay Now
+      </button>
+
+      <div style="margin-top: 1rem; text-align: center; font-size: 0.7rem; color: #9b8268;">
+        <i class="fas fa-check-circle"></i> 100% Secure Payment
+      </div>
+    </div>
+  </div>
+
+  <div class="back-link">
+    <a href="home.html" onclick="history.back(); return false;">
+      <i class="fas fa-arrow-left"></i> Back to Shopping
+    </a>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <div class="success-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h3>Payment Successful!</h3>
+    <p>Your order has been placed successfully. A confirmation email has been sent to your email address.</p>
+    <p style="font-size: 0.85rem; color: #b56938;" id="orderNumberDisplay"></p>
+    <button class="modal-btn" onclick="window.location.href='index.html'">Continue Shopping</button>
+    <button class="modal-btn modal-btn-secondary" onclick="closeModal()">View Order Details</button>
+  </div>
+</div>
+  <footer class="site-footer">
+  <div class="container">
+    <div class="footer-flex">
+      <div class="footer-block">
+        <h4>ThePrintify</h4>
+        <p>Premium Custom Apparel & Drinkware, Crafted for Everyday Use</p>
+        <p>Bangalore, India</p>
+        <p>hello@theprintify.com</p>
+      </div>
+      <div class="footer-block">
+        <h4>Discover</h4>
+        <a href="fullJourney.html">About us</a>
+        <a href="mug&tshirts.html">Our collections</a>
+        <a href="customized.html">Customized Your Design</a>
+      </div>
+      <div class="footer-block">
+        <h4>Resources</h4>
+        <a href="#">Design guide</a>
+        <a href="#">enquiries</a>
+        <a href="#">Shipping policy</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 ThePrintify — Wear Your Vibe. Sip Your Style.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Get URL parameters to retrieve order amount
+  const urlParams = new URLSearchParams(window.location.search);
+  let orderAmount = parseFloat(urlParams.get('amount')) || 1499; // Default amount if not passed
+  
+  // Format amount
+  const formattedAmount = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(orderAmount);
+  
+  // Calculate GST (5%)
+  const gst = orderAmount * 0.05;
+  const totalWithGst = orderAmount + gst;
+  
+  // Update order summary
+  document.getElementById('subtotal').innerHTML = `₹${orderAmount.toLocaleString('en-IN')}`;
+  document.getElementById('gstAmount').innerHTML = `₹${gst.toLocaleString('en-IN')}`;
+  document.getElementById('totalAmount').innerHTML = `₹${totalWithGst.toLocaleString('en-IN')}`;
+  document.getElementById('orderAmount').value = totalWithGst;
+
+  // Payment Method Toggle
+  const paymentOptions = document.querySelectorAll('.payment-option');
+  const upiInputDiv = document.getElementById('upiInput');
+  const cardDetailsDiv = document.getElementById('cardDetails');
+  const netbankingDiv = document.getElementById('netbankingDetails');
+
+  paymentOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      // Remove selected class from all
+      paymentOptions.forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      
+      const radio = option.querySelector('input[type="radio"]');
+      radio.checked = true;
+      
+      const method = option.dataset.method;
+      
+      // Hide all payment method specific fields
+      upiInputDiv.classList.remove('active');
+      cardDetailsDiv.style.display = 'none';
+      netbankingDiv.style.display = 'none';
+      
+      // Show relevant fields based on selected method
+      if (method === 'upi') {
+        upiInputDiv.classList.add('active');
+      } else if (method === 'card') {
+        cardDetailsDiv.style.display = 'block';
+      } else if (method === 'netbanking') {
+        netbankingDiv.style.display = 'block';
+      } else if (method === 'cod') {
+        // No additional fields for COD
+      }
+    });
+  });
+
+  // Format card number as user types
+  const cardNumberInput = document.getElementById('cardNumber');
+  if (cardNumberInput) {
+    cardNumberInput.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\s/g, '');
+      if (value.length > 16) value = value.slice(0, 16);
+      value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+      e.target.value = value;
+    });
+  }
+
+  // Format expiry date
+  const expiryInput = document.getElementById('expiryDate');
+  if (expiryInput) {
+    expiryInput.addEventListener('input', (e) => {
+      let value = e.target.value.replace('/', '');
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      }
+      e.target.value = value;
+    });
+  }
+
+  // Limit CVV to 4 digits
+  const cvvInput = document.getElementById('cvv');
+  if (cvvInput) {
+    cvvInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.slice(0, 4);
+    });
+  }
+
+  // Generate random order ID
+  function generateOrderId() {
+    const prefix = 'PRINTIFY';
+    const timestamp = Date.now().toString().slice(-8);
+    const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    return `${prefix}${timestamp}${random}`;
+  }
+
+  // Validate form based on selected payment method
+  function validateForm() {
+    const name = document.getElementById('fullName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    
+    if (!name) {
+      alert('Please enter your full name');
+      return false;
+    }
+    if (!email || !email.includes('@')) {
+      alert('Please enter a valid email address');
+      return false;
+    }
+    if (!phone || phone.length < 10) {
+      alert('Please enter a valid 10-digit phone number');
+      return false;
+    }
+    
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    
+    if (selectedMethod === 'card') {
+      const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+      const expiry = document.getElementById('expiryDate').value;
+      const cvv = document.getElementById('cvv').value;
+      const cardName = document.getElementById('cardName').value.trim();
+      
+      if (!cardNumber || cardNumber.length < 16) {
+        alert('Please enter a valid 16-digit card number');
+        return false;
+      }
+      if (!expiry || !expiry.match(/^\d{2}\/\d{2}$/)) {
+        alert('Please enter valid expiry date (MM/YY)');
+        return false;
+      }
+      if (!cvv || cvv.length < 3) {
+        alert('Please enter valid CVV');
+        return false;
+      }
+      if (!cardName) {
+        alert('Please enter cardholder name');
+        return false;
+      }
+    } else if (selectedMethod === 'upi') {
+      const upiId = document.getElementById('upiId').value.trim();
+      if (!upiId || !upiId.includes('@')) {
+        alert('Please enter a valid UPI ID (e.g., username@okhdfcbank)');
+        return false;
+      }
+    } else if (selectedMethod === 'netbanking') {
+      const bank = document.getElementById('bankSelect').value;
+      if (!bank) {
+        alert('Please select your bank');
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+  // Process Payment
+  function processPayment() {
+    if (!validateForm()) return;
+    
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    const methodNames = {
+      card: 'Credit/Debit Card',
+      upi: 'UPI',
+      netbanking: 'Net Banking',
+      cod: 'Cash on Delivery'
+    };
+    
+    // Show processing state
+    const payBtn = document.getElementById('payNowBtn');
+    const originalText = payBtn.innerHTML;
+    payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    payBtn.disabled = true;
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      const orderId = generateOrderId();
+      const customerName = document.getElementById('fullName').value;
+      const totalAmount = totalWithGst;
+      
+      // Store order details in localStorage (optional)
+      const orderDetails = {
+        orderId: orderId,
+        customerName: customerName,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        amount: totalAmount,
+        paymentMethod: methodNames[selectedMethod],
+        date: new Date().toISOString()
+      };
+      localStorage.setItem('lastOrder', JSON.stringify(orderDetails));
+      
+      // Show success modal
+      document.getElementById('orderNumberDisplay').innerHTML = `Order ID: ${orderId}`;
+      document.getElementById('successModal').style.display = 'flex';
+      
+      // Reset button
+      payBtn.innerHTML = originalText;
+      payBtn.disabled = false;
+      
+      // Log order for debugging
+      console.log('Order Placed:', orderDetails);
+      
+    }, 2000);
+  }
+
+  // Pay Now Button Click
+  document.getElementById('payNowBtn').addEventListener('click', processPayment);
+  
+  // Enter key support
+  document.getElementById('paymentForm').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      processPayment();
+    }
+  });
+
+  // Modal functions
+  function closeModal() {
+    document.getElementById('successModal').style.display = 'none';
+    // Optionally redirect to order details page
+    window.location.href = 'order-confirmation.html';
+  }
+  
+  window.closeModal = closeModal;
+  
+  // Close modal when clicking outside
+  window.onclick = (event) => {
+    const modal = document.getElementById('successModal');
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+</script>
+</body>
+</html>

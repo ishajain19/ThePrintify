@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Anveshan | Customize Your Design</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #FCF8F0;
+      color: #2A2418;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 3rem;
+      background: rgba(42, 36, 24, 0.95);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(230, 213, 165, 0.3);
+    }
+
+    .logo-text {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #FADB9F;
+      font-family: 'Cormorant Garamond', serif;
+      text-decoration: none;
+    }
+
+    .logo-tag {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: #C8B185;
+    }
+
+    .back-link {
+      color: #F5EDE0;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #E9C891;
+    }
+
+    /* Customize Hero */
+    .customize-hero {
+      margin-top: 80px;
+      background: linear-gradient(135deg, #2A2418 0%, #3E2E1E 100%);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    .customize-hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-family: 'Cormorant Garamond', serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .customize-hero p {
+      opacity: 0.85;
+      font-size: 1rem;
+    }
+
+    /* Main Design Studio */
+    .design-studio {
+      padding: 3rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr 280px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    /* Drag Items Panel */
+    .drag-panel {
+      background: white;
+      border-radius: 28px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border: 1px solid #EEE3D4;
+    }
+
+    .drag-panel h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #3A2C1C;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drag-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .drag-item {
+      background: linear-gradient(135deg, #F9F3E8, #F5EDE0);
+      border: 2px solid #E2D2BC;
+      border-radius: 20px;
+      padding: 1rem;
+      cursor: grab;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      user-select: none;
+    }
+
+    .drag-item:active {
+      cursor: grabbing;
+    }
+
+    .drag-item:hover {
+      background: #FDF7EF;
+      border-color: #C16E2E;
+      transform: translateX(4px);
+    }
+
+    .drag-icon {
+      width: 48px;
+      height: 48px;
+      background: #EADABC;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #B66225;
+    }
+
+    .drag-info h4 {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .drag-info p {
+      font-size: 0.7rem;
+      color: #8B7355;
+    }
+
+    /* Canvas Area */
+    .canvas-area {
+      background: #FEFAF2;
+      border-radius: 32px;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      border: 2px solid #E8DCC8;
+    }
+
+    .canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .canvas-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+    }
+
+    .canvas-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .btn-icon {
+      background: #2A2418;
+      color: #FADB9F;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: #C16E2E;
+      color: white;
+    }
+
+    .canvas-container {
+      position: relative;
+      background: #FFFFFF;
+      border-radius: 24px;
+      min-height: 480px;
+      border: 2px dashed #DCCCAE;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
+    }
+
+    #designCanvas {
+      position: relative;
+      width: 100%;
+      min-height: 480px;
+      background: 
+        linear-gradient(45deg, #f8f4ec 2px, transparent 2px),
+        linear-gradient(-45deg, #f8f4ec 2px, transparent 2px);
+      background-size: 24px 24px;
+      background-color: #FFFBF5;
+    }
+
+    .canvas-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #CBBE9E;
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+
+    .draggable-element {
+      position: absolute;
+      cursor: move;
+      user-select: none;
+      transition: box-shadow 0.1s ease;
+      z-index: 10;
+    }
+
+    .draggable-element:active {
+      cursor: grabbing;
+    }
+
+    .draggable-element img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    /* Style Panel */
+    .style-panel {
+      background: white;
+      border-radius: 28px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      border: 1px solid #EEE3D4;
+    }
+
+    .style-panel h3 {
+      font-family: 'Cormorant Garamond', serif;
+      margin-bottom: 1rem;
+    }
+
+    .color-options {
+      display: flex;
+      gap: 12px;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.1s;
+    }
+
+    .color-swatch.active {
+      border: 3px solid #2A2418;
+      transform: scale(1.1);
+      box-shadow: 0 0 0 2px #FADB9F;
+    }
+
+    .size-control {
+      margin: 1rem 0;
+    }
+
+    .size-control label {
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #C16E2E;
+    }
+
+    .btn-remove {
+      width: 100%;
+      background: #F0E5D8;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 40px;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .btn-remove:hover {
+      background: #E2CBB0;
+    }
+
+    .btn-download {
+      width: 100%;
+      background: #C16E2E;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 40px;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-download:hover {
+      background: #D47F3C;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+      .studio-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .site-header {
+        padding: 0.8rem 1.5rem;
+      }
+    }
+
+    .drag-item.dragging {
+      opacity: 0.5;
+    }
+
+    .drop-zone-active {
+      background: rgba(193, 110, 46, 0.05);
+      border: 2px dashed #C16E2E;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+    <a href="t-shirts.html">T-Shirts</a>
+    <a href="mugs-cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customized your Design</a>
+    <a href="mug&tshirts.html" class="nav-shop">Shop →</a>
+  </div>
+</header>
+
+<section class="customize-hero">
+  <h1>Wear your Vibe. Sip your Style.</h1>
+  <p>Drag & drop mugs, cups or t-shirts — customize colors & size. Create your own Design.</p>
+</section>
+
+<div class="design-studio">
+  <div class="studio-grid">
+    <!-- Left: Drag items panel -->
+    <div class="drag-panel">
+      <h3><i class="fas fa-hand-peace"></i> Drag to Canvas</h3>
+      <div class="drag-items">
+        <div class="drag-item" draggable="true" data-type="mug" data-icon="fa-mug-hot">
+          <div class="drag-icon"><i class="fas fa-mug-hot"></i></div>
+          <div class="drag-info">
+            <h4>Ceramic Mug</h4>
+            <p>Classic farmstead style</p>
+          </div>
+        </div>
+        <div class="drag-item" draggable="true" data-type="cup" data-icon="fa-cup-togo">
+          <div class="drag-icon"><i class="fas fa-cup-togo"></i></div>
+          <div class="drag-info">
+            <h4>Travel Cup</h4>
+            <p>Eco-friendly sipper</p>
+          </div>
+        </div>
+        <div class="drag-item" draggable="true" data-type="tshirt" data-icon="fa-shirt">
+          <div class="drag-icon"><i class="fas fa-shirt"></i></div>
+          <div class="drag-info">
+            <h4>Organic T-Shirt</h4>
+            <p>100% cotton, native vibe</p>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 0.7rem; margin-top: 1rem; color: #8B7355;"><i class="fas fa-arrows-alt"></i> Simply drag any item onto the canvas below</p>
+    </div>
+
+    <!-- Center: Canvas area -->
+    <div class="canvas-area">
+      <div class="canvas-header">
+        <h3><i class="fas fa-palette"></i> Your Design Canvas</h3>
+        <div class="canvas-actions">
+          <button class="btn-icon" id="clearCanvasBtn"><i class="fas fa-trash-alt"></i> Clear All</button>
+        </div>
+      </div>
+      <div class="canvas-container" id="canvasContainer">
+        <div id="designCanvas" style="position: relative; min-height: 480px; overflow: auto;">
+          <div class="canvas-placeholder" id="canvasPlaceholder">
+            <i class="fas fa-arrow-down" style="font-size: 2rem; opacity: 0.5;"></i>
+            <p>Drop your mug, cup or t-shirt here</p>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 0.7rem; margin-top: 0.8rem; text-align: center; color: #8B7355;">
+        <i class="fas fa-mouse-pointer"></i> Click on any item to select & edit | Drag to reposition
+      </p>
+    </div>
+
+    <!-- Right: Style Panel -->
+    <div class="style-panel" id="stylePanel">
+      <h3><i class="fas fa-sliders-h"></i> Customize</h3>
+      <div id="noSelectionMsg" style="color: #B79A6C; font-size: 0.85rem; text-align: center; padding: 1rem 0;">
+        Select an element on canvas
+      </div>
+      <div id="editControls" style="display: none;">
+        <div class="color-options">
+          <div class="color-swatch" style="background: #C16E2E;" data-color="#C16E2E"></div>
+          <div class="color-swatch" style="background: #4A6A3B;" data-color="#4A6A3B"></div>
+          <div class="color-swatch" style="background: #2C4C6E;" data-color="#2C4C6E"></div>
+          <div class="color-swatch" style="background: #9B6A42;" data-color="#9B6A42"></div>
+          <div class="color-swatch" style="background: #BD8A5E;" data-color="#BD8A5E"></div>
+          <div class="color-swatch" style="background: #E0B07F;" data-color="#E0B07F"></div>
+        </div>
+        <div class="size-control">
+          <label><i class="fas fa-expand-alt"></i> Size: <span id="sizeValue">100</span>px</label>
+          <input type="range" id="sizeSlider" min="40" max="200" step="2" value="100">
+        </div>
+        <button class="btn-remove" id="removeSelectedBtn"><i class="fas fa-times-circle"></i> Remove Selected</button>
+      </div>
+      <button class="btn-download" id="downloadDesignBtn"><i class="fas fa-download"></i> Save Design as Image</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-flex">
+      <div class="footer-block">
+        <h4>ThePrintify</h4>
+        <p>Premium Custom Apparel & Drinkware, Crafted for Everyday Use</p>
+        <p>Bangalore, India</p>
+        <p>hello@theprintify.com</p>
+      </div>
+      <div class="footer-block">
+        <h4>Discover</h4>
+        <a href="fullJourney.html">About us</a>
+        <a href="mug&tshirts.html">Our collections</a>
+        <a href="customized.html">Customized Your Design</a>
+      </div>
+      <div class="footer-block">
+        <h4>Resources</h4>
+        <a href="#">Design guide</a>
+        <a href="#">enquiries</a>
+        <a href="#">Shipping policy</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 ThePrintify — Wear Your Vibe. Sip Your Style.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ----- Drag and Drop Setup -----
+  const canvas = document.getElementById('designCanvas');
+  const canvasContainer = document.getElementById('canvasContainer');
+  let selectedElement = null;
+  let elementCounter = 0;
+  let elements = []; // store refs for z-index etc.
+
+  // Helper: remove placeholder if any elements exist
+  function updatePlaceholder() {
+    const existingElements = canvas.querySelectorAll('.draggable-element');
+    const placeholder = document.getElementById('canvasPlaceholder');
+    if (existingElements.length > 0) {
+      if (placeholder) placeholder.style.display = 'none';
+    } else {
+      if (placeholder) placeholder.style.display = 'block';
+    }
+  }
+
+  // Create SVG / icon image based on type
+  function getIconSvg(type, colorHex) {
+    const color = colorHex || '#C16E2E';
+    // simple inline SVG for each item to look like mug/cup/tshirt
+    if (type === 'mug') {
+      return `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M25 35 L75 35 L70 70 L30 70 L25 35Z" fill="${color}" stroke="#4A2E1A" stroke-width="2"/>
+        <rect x="70" y="45" width="14" height="28" rx="7" fill="${color}" stroke="#4A2E1A" stroke-width="2"/>
+        <path d="M38 28 L62 28 L60 35 L40 35Z" fill="#E2C09A" stroke="#4A2E1A"/>
+      </svg>`;
+    } else if (type === 'cup') {
+      return `<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+        <path d="M32 45 L68 45 L64 75 L36 75 L32 45Z" fill="${color}" stroke="#4A2E1A" stroke-width="2"/>
+        <path d="M68 52 L78 52 L78 68 L68 68Z" fill="${color}" stroke="#4A2E1A" stroke-width="2"/>
+        <ellipse cx="50" cy="42" rx="22" ry="8" fill="#EADABC" stroke="#4A2E1A"/>
+      </svg>`;
+    } else if (type === 'tshirt') {
+      return `<svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+        <path d="M30 30 L50 18 L70 30 L68 70 L50 82 L32 70 L30 30Z" fill="${color}" stroke="#4A2E1A" stroke-width="2"/>
+        <path d="M43 32 L57 32 L55 45 L45 45L43 32Z" fill="#F5E6D3"/>
+        <path d="M50 45 L50 70" stroke="#4A2E1A" stroke-width="1.5"/>
+      </svg>`;
+    }
+    return `<svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="${color}"/></svg>`;
+  }
+
+  function createDraggableElement(type, left, top, color = '#C16E2E', size = 100) {
+    const id = `elem_${Date.now()}_${elementCounter++}`;
+    const div = document.createElement('div');
+    div.className = 'draggable-element';
+    div.setAttribute('data-id', id);
+    div.setAttribute('data-type', type);
+    div.setAttribute('data-color', color);
+    div.style.position = 'absolute';
+    div.style.left = `${left}px`;
+    div.style.top = `${top}px`;
+    div.style.width = `${size}px`;
+    div.style.height = `${size}px`;
+    div.style.cursor = 'grab';
+    div.style.zIndex = 10 + elements.length;
+    
+    const svgRaw = getIconSvg(type, color);
+    div.innerHTML = svgRaw;
+    
+    // make draggable with mouse
+    makeElementDraggable(div);
+    div.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectElement(div);
+    });
+    return div;
+  }
+
+  let dragActive = false;
+  let currentDragElem = null;
+  let offsetX, offsetY;
+
+  function makeElementDraggable(elem) {
+    elem.addEventListener('mousedown', startDrag);
+    elem.addEventListener('touchstart', startDrag, { passive: false });
+  }
+
+  function startDrag(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const elem = e.target.closest('.draggable-element');
+    if (!elem) return;
+    currentDragElem = elem;
+    selectElement(elem);
+    
+    const clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+    const clientY = e.clientY ?? (e.touches ? e.touches[0].clientY : 0);
+    const rect = elem.getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+    
+    window.addEventListener('mousemove', onDragMove);
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('touchmove', onDragMove);
+    window.addEventListener('touchend', stopDrag);
+    elem.style.cursor = 'grabbing';
+  }
+
+  function onDragMove(e) {
+    if (!currentDragElem) return;
+    e.preventDefault();
+    let clientX = e.clientX ?? (e.touches ? e.touches[0].clientX : 0);
+    let clientY = e.clientY ?? (e.touches ? e.touches[0].clientY : 0);
+    const canvasRect = canvas.getBoundingClientRect();
+    let newLeft = clientX - canvasRect.left - offsetX;
+    let newTop = clientY - canvasRect.top - offsetY;
+    newLeft = Math.max(0, Math.min(newLeft, canvasRect.width - currentDragElem.offsetWidth));
+    newTop = Math.max(0, Math.min(newTop, canvasRect.height - currentDragElem.offsetHeight));
+    currentDragElem.style.left = `${newLeft}px`;
+    currentDragElem.style.top = `${newTop}px`;
+  }
+
+  function stopDrag() {
+    if (currentDragElem) currentDragElem.style.cursor = 'grab';
+    currentDragElem = null;
+    window.removeEventListener('mousemove', onDragMove);
+    window.removeEventListener('mouseup', stopDrag);
+    window.removeEventListener('touchmove', onDragMove);
+    window.removeEventListener('touchend', stopDrag);
+  }
+
+  // Select element and update panel
+  function selectElement(elem) {
+    if (selectedElement) {
+      selectedElement.style.outline = 'none';
+    }
+    selectedElement = elem;
+    selectedElement.style.outline = '3px solid #C16E2E';
+    selectedElement.style.outlineOffset = '2px';
+    
+    const type = elem.getAttribute('data-type');
+    const currentColor = elem.getAttribute('data-color') || '#C16E2E';
+    const currentSize = parseInt(elem.style.width);
+    document.getElementById('noSelectionMsg').style.display = 'none';
+    document.getElementById('editControls').style.display = 'block';
+    document.getElementById('sizeSlider').value = currentSize;
+    document.getElementById('sizeValue').innerText = currentSize;
+    
+    // update color swatch active
+    document.querySelectorAll('.color-swatch').forEach(sw => {
+      if (sw.getAttribute('data-color') === currentColor) sw.classList.add('active');
+      else sw.classList.remove('active');
+    });
+  }
+
+  function updateSelectedColor(color) {
+    if (!selectedElement) return;
+    const type = selectedElement.getAttribute('data-type');
+    selectedElement.setAttribute('data-color', color);
+    const svgHtml = getIconSvg(type, color);
+    selectedElement.innerHTML = svgHtml;
+    makeElementDraggable(selectedElement);
+    selectedElement.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectElement(selectedElement);
+    });
+  }
+
+  function updateSelectedSize(size) {
+    if (!selectedElement) return;
+    selectedElement.style.width = `${size}px`;
+    selectedElement.style.height = `${size}px`;
+    document.getElementById('sizeValue').innerText = size;
+  }
+
+  function removeSelected() {
+    if (selectedElement) {
+      selectedElement.remove();
+      selectedElement = null;
+      document.getElementById('noSelectionMsg').style.display = 'block';
+      document.getElementById('editControls').style.display = 'none';
+      updatePlaceholder();
+    }
+  }
+
+  function clearCanvas() {
+    const allElems = canvas.querySelectorAll('.draggable-element');
+    allElems.forEach(el => el.remove());
+    selectedElement = null;
+    document.getElementById('noSelectionMsg').style.display = 'block';
+    document.getElementById('editControls').style.display = 'none';
+    updatePlaceholder();
+  }
+
+  // Drag and drop from drag-items
+  const dragItems = document.querySelectorAll('.drag-item');
+  dragItems.forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', JSON.stringify({
+        type: item.getAttribute('data-type'),
+        icon: item.getAttribute('data-icon')
+      }));
+      e.dataTransfer.effectAllowed = 'copy';
+      item.classList.add('dragging');
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+    });
+  });
+
+  canvas.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+    canvas.classList.add('drop-zone-active');
+  });
+  canvas.addEventListener('dragleave', () => canvas.classList.remove('drop-zone-active'));
+
+  canvas.addEventListener('drop', (e) => {
+    e.preventDefault();
+    canvas.classList.remove('drop-zone-active');
+    const rawData = e.dataTransfer.getData('text/plain');
+    if (!rawData) return;
+    const { type } = JSON.parse(rawData);
+    const rect = canvas.getBoundingClientRect();
+    let left = e.clientX - rect.left - 50;
+    let top = e.clientY - rect.top - 50;
+    left = Math.max(10, Math.min(left, rect.width - 90));
+    top = Math.max(10, Math.min(top, rect.height - 90));
+    const newElem = createDraggableElement(type, left, top, '#C16E2E', 100);
+    canvas.appendChild(newElem);
+    updatePlaceholder();
+    selectElement(newElem);
+  });
+
+  // Panel listeners
+  document.querySelectorAll('.color-swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      const color = sw.getAttribute('data-color');
+      if (selectedElement) {
+        updateSelectedColor(color);
+        selectedElement.setAttribute('data-color', color);
+      }
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+    });
+  });
+
+  document.getElementById('sizeSlider').addEventListener('input', (e) => {
+    const val = e.target.value;
+    document.getElementById('sizeValue').innerText = val;
+    if (selectedElement) updateSelectedSize(parseInt(val));
+  });
+  document.getElementById('removeSelectedBtn').addEventListener('click', removeSelected);
+  document.getElementById('clearCanvasBtn').addEventListener('click', clearCanvas);
+  
+  // Download canvas as image
+  document.getElementById('downloadDesignBtn').addEventListener('click', () => {
+    const container = document.getElementById('designCanvas');
+    const originalOverflow = container.style.overflow;
+    container.style.overflow = 'visible';
+    html2canvas(container, { scale: 2, backgroundColor: '#FFFBF5' }).then(canvasImg => {
+      const link = document.createElement('a');
+      link.download = 'anveshan-custom-design.png';
+      link.href = canvasImg.toDataURL();
+      link.click();
+      container.style.overflow = originalOverflow;
+    }).catch(() => {
+      alert('Please try again or check canvas items');
+      container.style.overflow = originalOverflow;
+    });
+  });
+
+  // Back to home alert demo
+  document.getElementById('backToHome').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('✨ Returning to Anveshan Farm — your designs are saved temporarily.');
+  });
+  
+  updatePlaceholder();
+  
+  // add helper library for html2canvas via CDN
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  document.head.appendChild(script);
+</script>
+</body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ThePrintify | Pro Tee Collection – Detailed View & Add to Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f8f6f2;
+            font-family: 'Inter', sans-serif;
+            color: #23201e;
+            line-height: 1.4;
+        }
+        .bg-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 32px 32px;
+            z-index: 0;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        .site-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e6ddd2;
+            padding-bottom: 1rem;
+        }
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f3b2c, #b36b3c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo-tag {
+            font-size: 0.8rem;
+            color: #8f7862;
+        }
+        .main-nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .main-nav a {
+            text-decoration: none;
+            color: #4f3a28;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .main-nav a:hover { color: #b36b3c; }
+        .nav-shop {
+            background: #b36b3c;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            color: black !important;
+        }
+        .cart-icon-badge {
+            background: #ede3d7;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+        .cart-count {
+            background: #b36b3c;
+            border-radius: 30px;
+            padding: 0px 8px;
+            color: white;
+            font-size: 0.75rem;
+        }
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 1.5rem 0 2rem;
+            justify-content: center;
+            border-bottom: 1px solid #e9dfd3;
+            padding-bottom: 1rem;
+        }
+        .filter-btn {
+            background: #fffcf7;
+            border: 1px solid #ddd0c0;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #4f3a28;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn.active {
+            background: #b36b3c;
+            border-color: #b36b3c;
+            color: white;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.04);
+            border: 1px solid #ece0d4;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+            border-color: #cfb694;
+        }
+        .card-img {
+            background: #faf5ed;
+            text-align: center;
+            padding: 1.2rem;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.2s;
+        }
+        .card-info {
+            padding: 1rem 1.2rem 1.2rem;
+            text-align: center;
+        }
+        .product-name {
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 0.2rem;
+            color: #2b2a27;
+        }
+        .product-badge {
+            font-size: 0.7rem;
+            background: #f0e7de;
+            display: inline-block;
+            padding: 0.2rem 0.9rem;
+            border-radius: 20px;
+            margin: 0.5rem 0;
+            color: #956e4a;
+        }
+        .price {
+            font-weight: 700;
+            color: #b6622c;
+            font-size: 1.1rem;
+            margin: 6px 0;
+        }
+        .quick-add-btn {
+            background: #b36b3c;
+            border: none;
+            width: 100%;
+            padding: 0.7rem 0;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .quick-add-btn:hover { background: #9a582f; }
+        
+        /* DETAIL MODAL - Enhanced */
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .detail-modal-content {
+            background: #ffffff;
+            max-width: 1000px;
+            width: 90%;
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            animation: fadeUp 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .detail-image-section {
+            flex: 1.2;
+            background: #faf3ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            min-height: 380px;
+        }
+        .detail-image {
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 1rem;
+        }
+        .detail-info-section {
+            flex: 1.5;
+            padding: 2rem;
+            background: white;
+        }
+        .detail-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #2b2a27;
+            margin-bottom: 0.5rem;
+        }
+        .detail-category {
+            display: inline-block;
+            background: #f0e7de;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #956e4a;
+        }
+        .detail-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #b6622c;
+            margin: 0.8rem 0;
+        }
+        .detail-desc {
+            color: #4f3a28;
+            line-height: 1.5;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        .detail-features {
+            background: #f9f4ed;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+        .detail-features h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #b36b3c;
+        }
+        .detail-features ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .detail-features li {
+            background: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            border: 1px solid #e0cfbf;
+        }
+        .size-selector, .qty-selector {
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .size-selector select, .qty-selector input {
+            padding: 0.5rem;
+            border-radius: 30px;
+            border: 1px solid #ddd0c0;
+            font-family: 'Inter', sans-serif;
+            background: white;
+        }
+        .detail-add-btn {
+            background: #b36b3c;
+            border: none;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        .detail-add-btn:hover { background: #9a582f; transform: scale(0.98); }
+        .close-detail {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: #333;
+        }
+        .cart-toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #1f3b2c;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            z-index: 2100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(60px);}
+            to { opacity: 1; transform: translateX(0);}
+        }
+        .collection-banner {
+            background: linear-gradient(135deg, #2e2a24, #3f3328);
+            border-radius: 1.5rem;
+            padding: 1.2rem 2rem;
+            margin: 2rem 0 1.5rem;
+            color: #f2e3d8;
+        }
+        .site-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e1d3c4;
+        }
+        .footer-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #9f846a;
+        }
+        @media (max-width: 780px) {
+            .detail-modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; }
+            .detail-image-section { min-height: 250px; }
+        }
+    </style>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+    <!-- <a href="#">All Products </a> -->
+    <a href="Tshirts.html">T-Shirts</a>
+    <a href="mugs&cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customized your Design</a>
+    <a href="#" class="nav-shop">Shop →</a>
+  </div>
+</header>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+        <div class="cart-icon-badge" id="cartIconBtn">
+            <i class="fas fa-shopping-cart"></i> Cart <span id="cartItemCount" class="cart-count">0</span>
+        </div>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-cat="all">All T-Shirts</button>
+        <button class="filter-btn" data-cat="polo">Professional Polo</button>
+        <button class="filter-btn" data-cat="crew">Crew Neck</button>
+        <button class="filter-btn" data-cat="henley">Henley</button>
+        <button class="filter-btn" data-cat="womens">Women’s Pro</button>
+        <button class="filter-btn" data-cat="corporate">Corporate</button>
+        <button class="filter-btn" data-cat="oversize">Premium Oversize</button>
+    </div>
+
+    <div id="productsContainer"></div>
+
+    <div class="collection-banner">
+        <div><h4><i class="fas fa-crown"></i> Signature Collections</h4><p>The Professional Edit · WorkWear · Modern Essentials</p></div>
+        <div><i class="fas fa-star"></i> Click any product for DETAILED view + Add to Cart</div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-flex">
+            <div class="footer-block"><h4>ThePrintify</h4><p>Regenerative farm & native breed conservation</p><p>Karnataka, India</p></div>
+            <div class="footer-block"><h4>Discover</h4><a href="#">About the land</a><a href="#">Shop all</a></div>
+            <div class="footer-block"><h4>Resources</h4><a href="#">Wholesale enquiries</a></div>
+        </div>
+        <div class="copyright">© 2026 ThePrintify Foundation — Style You Can Wear.</div>
+    </footer>
+</div>
+
+<!-- DETAIL MODAL (Enhanced) -->
+<div id="detailModal" class="detail-modal">
+    <div class="close-detail" id="closeDetailBtn"><i class="fas fa-times"></i></div>
+    <div class="detail-modal-content" id="detailModalContent">
+        <div class="detail-image-section">
+            <img id="detailImg" class="detail-image" src="" alt="Product detail">
+        </div>
+        <div class="detail-info-section">
+            <div class="detail-name" id="detailName"></div>
+            <div class="detail-category" id="detailCategory"></div>
+            <div class="detail-price" id="detailPrice"></div>
+            <div class="detail-desc" id="detailDesc"></div>
+            <div class="detail-features" id="detailFeatures"></div>
+            <div class="size-selector">
+                <span><i class="fas fa-ruler"></i> Size:</span>
+                <select id="detailSizeSelect">
+                    <option value="S">S</option><option value="M" selected>M</option><option value="L">L</option><option value="XL">XL</option><option value="XXL">XXL</option>
+                </select>
+            </div>
+            <div class="qty-selector">
+                <span><i class="fas fa-cube"></i> Qty:</span>
+                <input type="number" id="detailQty" value="1" min="1" max="10" style="width:70px;">
+            </div>
+            <button class="detail-add-btn" id="detailAddToCartBtn"><i class="fas fa-cart-plus"></i> Add to Cart — Full Details</button>
+        </div>
+    </div>
+</div>
+
+<!-- Cart Side Modal -->
+<div id="cartModal" class="detail-modal" style="z-index: 2001;">
+    <div class="close-detail" id="closeCartModalBtn"><i class="fas fa-times"></i></div>
+    <div class="detail-modal-content" style="max-width: 500px; flex-direction: column; padding: 1.5rem;">
+        <h3><i class="fas fa-shopping-bag"></i> Your Cart</h3>
+        <div id="cartItemsList" style="max-height: 300px; overflow-y: auto; margin: 1rem 0;"></div>
+        <div style="border-top:1px solid #eee; padding-top:12px; display: flex; justify-content: space-between; font-weight:800;"><span>Total:</span><span id="cartTotalPrice">₹0</span></div>
+        <div style="margin-top: 20px; display: flex; gap:10px; justify-content: flex-end;">
+            <button id="checkoutBtnModal" style="background:#b36b3c; border:none; padding:10px 20px; border-radius:40px; color:white; font-weight:bold;">Checkout</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ---------- ENHANCED PRODUCT DATABASE with DETAILS, IMAGES, FEATURES ----------
+const teeCatalog = [
+    { id: 1, name: "Elite Polo", category: "polo", price: "₹1,499", imgUrl: "https://images.unsplash.com/photo-1586363104864-3c2d6a3c2f3a?w=500&auto=format", desc: "Classic pique knit polo with moisture-wicking fabric. Structured collar, perfect for corporate branding. Professional look with breathable comfort.", features: ["Moisture-wicking", "Structured collar", "Button placket", "210 GSM", "Tear-away label"], sizesAvail: ["S","M","L","XL","XXL"], material: "65% Cotton, 35% Polyester" },
+    { id: 2, name: "OfficeFlex Polo", category: "polo", price: "₹1,599", imgUrl: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&auto=format", desc: "Stretch cotton blend, wrinkle-resistant, tailored fit. All-day comfort with 4-way stretch fabric.", features: ["4-way stretch", "Wrinkle-resistant", "UV Protection", "Anti-odor"], sizesAvail: ["S","M","L","XL","XXL","3XL"] },
+    { id: 3, name: "Classic Core Tee", category: "crew", price: "₹999", imgUrl: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format", desc: "100% combed ring-spun cotton crew neck, pre-shrunk everyday essential. Ultra-soft and durable.", features: ["Pre-shrunk", "Taped shoulders", "180 GSM", "Side-seamed"], sizesAvail: ["XS","S","M","L","XL","XXL"] },
+    { id: 4, name: "Urban Henley", category: "henley", price: "₹1,399", imgUrl: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&auto=format", desc: "Classic 3-button placket, soft cotton blend, casual elegance. Perfect for smart-casual events.", features: ["3-button placket", "Self-fabric collar", "Soft modal blend"], sizesAvail: ["S","M","L","XL","XXL"] },
+    { id: 5, name: "ChicFit Tee", category: "womens", price: "₹1,199", imgUrl: "https://images.unsplash.com/photo-1554568218-0f1715e72254?w=500&auto=format", desc: "Tailored feminine cut, soft modal fabric, office-ready style with elegant drape.", features: ["Feminine cut", "Modal fabric", "4-way stretch", "Tagless label"], sizesAvail: ["XS","S","M","L","XL"] },
+    { id: 6, name: "BrandMark Tee", category: "corporate", price: "₹1,049", imgUrl: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500&auto=format", desc: "Heavyweight cotton, perfect for screen printing, tear-away label. Ideal for company logos.", features: ["220 GSM", "Perfect for print", "Reinforced collar", "Durable"], sizesAvail: ["S","M","L","XL","XXL","3XL"] },
+    { id: 7, name: "Street Luxe Tee", category: "oversize", price: "₹1,699", imgUrl: "https://images.unsplash.com/photo-1574181967756-9b7f02e3b1e9?w=500&auto=format", desc: "Oversized silhouette, premium heavy cotton, dropped shoulders. Streetwear aesthetic with premium feel.", features: ["Dropped shoulders", "260 GSM", "Boxy silhouette", "Ribbed collar"], sizesAvail: ["S","M","L","XL","XXL"] },
+    { id: 8, name: "PureStyle Tee", category: "crew", price: "₹1,099", imgUrl: "https://images.unsplash.com/photo-1581655353564-df123f5fc4e2?w=500&auto=format", desc: "Luxuriously soft modal blend, minimalist design, clean neckline. Buttery soft for all-day wear.", features: ["Modal blend", "Tagless", "Breathable", "Eco-friendly"], sizesAvail: ["XS","S","M","L","XL"] },
+    { id: 9, name: "Luxe Button Henley", category: "henley", price: "₹1,499", imgUrl: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500&auto=format", desc: "Premium slub fabric, genuine shell buttons, relaxed vintage vibe.", features: ["Genuine shell buttons", "Slub texture", "Vintage wash"], sizesAvail: ["S","M","L","XL"] },
+    { id: 10, name: "WorkWear Tee", category: "corporate", price: "₹1,099", imgUrl: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&auto=format", desc: "Durable ring-spun fabric, reinforced collar, ideal for team uniforms.", features: ["Ring-spun softness", "Uniform quality", "Tear-away label"], sizesAvail: ["S","M","L","XL","XXL","3XL"] },
+    { id: 11, name: "BoldFit Oversize", category: "oversize", price: "₹1,599", imgUrl: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&auto=format", desc: "Boxy oversized cut, wide ribbed collar, streetwear essential with premium weight.", features: ["Wide ribbed collar", "240 GSM", "Boxy silhouette"], sizesAvail: ["S","M","L","XL","XXL"] },
+    { id: 12, name: "Elegant Wear Top", category: "womens", price: "₹1,349", imgUrl: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&auto=format", desc: "Draped neckline, luxurious viscose blend, sophisticated silhouette for modern professionals.", features: ["Draped neckline", "Fluid drape", "Breathable"], sizesAvail: ["XS","S","M","L"] }
+];
+
+let cart = []; // { id, name, price, quantity, size, imgUrl }
+let activeCategory = "all";
+let currentDetailProduct = null;
+
+// Helper functions
+function showToast(msg) {
+    let toast = document.querySelector('.cart-toast');
+    if (toast) toast.remove();
+    const newToast = document.createElement('div');
+    newToast.className = 'cart-toast';
+    newToast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+    document.body.appendChild(newToast);
+    setTimeout(() => newToast.remove(), 2000);
+}
+
+function updateCartUI() {
+    const countSpan = document.getElementById('cartItemCount');
+    const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+    if (countSpan) countSpan.innerText = totalItems;
+    const cartListDiv = document.getElementById('cartItemsList');
+    const cartTotalSpan = document.getElementById('cartTotalPrice');
+    if (cartListDiv) {
+        if (cart.length === 0) {
+            cartListDiv.innerHTML = '<p style="text-align:center;">Your cart is empty</p>';
+        } else {
+            let html = '', total = 0;
+            cart.forEach((item, idx) => {
+                const numericPrice = parseInt(item.price.replace('₹', '').replace(',', ''));
+                const itemTotal = numericPrice * item.quantity;
+                total += itemTotal;
+                html += `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:10px 0;">
+                    <div><strong>${item.name}</strong> (${item.size})<br><small>${item.price} x ${item.quantity}</small></div>
+                    <div>₹${itemTotal}<button style="margin-left:8px; background:#eee; border:none; border-radius:20px; padding:2px 8px; cursor:pointer;" class="cart-remove-item" data-idx="${idx}">🗑️</button></div>
+                </div>`;
+            });
+            cartListDiv.innerHTML = html;
+            cartTotalSpan.innerText = `₹${total}`;
+            document.querySelectorAll('.cart-remove-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    cart.splice(idx, 1);
+                    updateCartUI();
+                    showToast("Item removed");
+                });
+            });
+        }
+    }
+}
+
+function addToCart(product, size, quantity) {
+    const existingIdx = cart.findIndex(item => item.id === product.id && item.size === size);
+    const priceNum = product.price;
+    if (existingIdx !== -1) {
+        cart[existingIdx].quantity += quantity;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: quantity,
+            size: size,
+            imgUrl: product.imgUrl
+        });
+    }
+    updateCartUI();
+    showToast(`${product.name} (${size}) added to cart 🛒`);
+}
+
+// Open Detailed Modal
+function openDetailModal(product) {
+    currentDetailProduct = product;
+    document.getElementById('detailImg').src = product.imgUrl;
+    document.getElementById('detailName').innerText = product.name;
+    document.getElementById('detailCategory').innerText = product.category.charAt(0).toUpperCase() + product.category.slice(1);
+    document.getElementById('detailPrice').innerText = product.price;
+    document.getElementById('detailDesc').innerText = product.desc;
+    let featuresHtml = `<h4><i class="fas fa-star"></i> Key Features</h4><ul>`;
+    product.features.forEach(f => { featuresHtml += `<li>${f}</li>`; });
+    featuresHtml += `</ul>`;
+    if (product.material) featuresHtml += `<p style="margin-top:8px;"><strong>Material:</strong> ${product.material}</p>`;
+    document.getElementById('detailFeatures').innerHTML = featuresHtml;
+    // populate size dropdown with available sizes or default
+    const sizeSelect = document.getElementById('detailSizeSelect');
+    if (product.sizesAvail && product.sizesAvail.length) {
+        sizeSelect.innerHTML = '';
+        product.sizesAvail.forEach(sz => {
+            const opt = document.createElement('option');
+            opt.value = sz;
+            opt.innerText = sz;
+            sizeSelect.appendChild(opt);
+        });
+    } else {
+        sizeSelect.innerHTML = `<option>S</option><option>M</option><option>L</option><option>XL</option>`;
+    }
+    document.getElementById('detailQty').value = 1;
+    document.getElementById('detailModal').style.display = 'flex';
+}
+
+// render products grid
+function renderProducts() {
+    let filtered = teeCatalog;
+    if (activeCategory !== "all") filtered = teeCatalog.filter(p => p.category === activeCategory);
+    if (filtered.length === 0) {
+        productsContainer.innerHTML = `<div style="text-align:center; padding:2rem;">No products in this category</div>`;
+        return;
+    }
+    let html = `<div class="products-grid">`;
+    filtered.forEach(prod => {
+        const catLabel = prod.category.charAt(0).toUpperCase() + prod.category.slice(1);
+        html += `
+            <div class="product-card" data-id="${prod.id}">
+                <div class="card-img">
+                    <img class="product-img" src="${prod.imgUrl}" alt="${prod.name}" loading="lazy" onerror="this.src='https://placehold.co/400x400/f2e9e0/b36b3c?text=Tee'">
+                </div>
+                <div class="card-info">
+                    <div class="product-name">${prod.name}</div>
+                    <div class="product-badge">${catLabel}</div>
+                    <div class="price">${prod.price}</div>
+                    <button class="quick-add-btn quick-add-only" data-id="${prod.id}" data-name="${prod.name}" data-price="${prod.price}" data-img="${prod.imgUrl}">
+                        <i class="fas fa-cart-plus"></i> Quick Add
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+    html += `</div>`;
+    productsContainer.innerHTML = html;
+    // attach quick-add events
+    document.querySelectorAll('.quick-add-only').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = parseInt(btn.getAttribute('data-id'));
+            const product = teeCatalog.find(p => p.id === id);
+            if (product) {
+                addToCart(product, 'M', 1);
+            }
+        });
+    });
+    // attach product card click for detailed modal
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-add-only')) return;
+            const id = parseInt(card.getAttribute('data-id'));
+            const product = teeCatalog.find(p => p.id === id);
+            if (product) openDetailModal(product);
+        });
+    });
+}
+
+// Filter listeners
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.getAttribute('data-cat');
+        renderProducts();
+    });
+});
+
+// Detail modal add to cart
+document.getElementById('detailAddToCartBtn').addEventListener('click', () => {
+    if (currentDetailProduct) {
+        const size = document.getElementById('detailSizeSelect').value;
+        let qty = parseInt(document.getElementById('detailQty').value);
+        if (isNaN(qty) || qty < 1) qty = 1;
+        addToCart(currentDetailProduct, size, qty);
+        document.getElementById('detailModal').style.display = 'none';
+    }
+});
+
+// Close modals
+document.getElementById('closeDetailBtn').addEventListener('click', () => {
+    document.getElementById('detailModal').style.display = 'none';
+});
+document.getElementById('closeCartModalBtn').addEventListener('click', () => {
+    document.getElementById('cartModal').style.display = 'none';
+});
+document.getElementById('cartIconBtn').addEventListener('click', () => {
+    updateCartUI();
+    document.getElementById('cartModal').style.display = 'flex';
+});
+document.getElementById('checkoutBtnModal').addEventListener('click', () => {
+    if(cart.length === 0) alert("Cart empty");
+    else { alert("Proceeding to checkout! Thank you."); cart = []; updateCartUI(); document.getElementById('cartModal').style.display = 'none'; showToast("Order placed! 🎉"); }
+});
+window.addEventListener('click', (e) => {
+    if(e.target === document.getElementById('detailModal')) document.getElementById('detailModal').style.display = 'none';
+    if(e.target === document.getElementById('cartModal')) document.getElementById('cartModal').style.display = 'none';
+});
+
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>

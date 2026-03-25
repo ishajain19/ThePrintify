@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ThePrintify | Mug Collections – Custom Ceramic, Magic, Travel & More</title>
+    <!-- Google Fonts + modern reset -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fef8f0;
+            font-family: 'Inter', sans-serif;
+            color: #2c241e;
+            line-height: 1.4;
+        }
+
+        /* subtle noise overlay */
+        .bg-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 28px 28px;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0e0d0;
+            padding-bottom: 1.2rem;
+        }
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(130deg, #2c3e2b, #b76e3c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .logo p {
+            font-size: 0.8rem;
+            color: #a17f62;
+        }
+        .header-icons i {
+            font-size: 1.6rem;
+            color: #b77b46;
+            margin-left: 0.8rem;
+        }
+
+        /* category filter bar */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.5rem 0 2rem;
+            justify-content: center;
+        }
+        .filter-btn {
+            background: #fff6ed;
+            border: 1px solid #e7cfbb;
+            padding: 0.6rem 1.4rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #5c3f2a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .filter-btn i {
+            margin-right: 6px;
+            font-size: 0.8rem;
+        }
+        .filter-btn.active {
+            background: #b77b46;
+            border-color: #b77b46;
+            color: white;
+            box-shadow: 0 6px 12px rgba(183, 123, 70, 0.2);
+        }
+        .filter-btn:hover:not(.active) {
+            background: #ecdbc9;
+            transform: translateY(-2px);
+        }
+
+        /* category title */
+        .category-section {
+            margin: 2rem 0 1.5rem;
+        }
+        .category-title {
+            font-size: 1.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 5px solid #c28a56;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .category-title i {
+            color: #b77b46;
+            font-size: 1.5rem;
+        }
+
+        /* product grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* product card */
+        .product-card {
+            background: white;
+            border-radius: 1.8rem;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+            border: 1px solid #f3e2d2;
+            cursor: pointer;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+            border-color: #ddbc99;
+        }
+        .card-img {
+            background: #faf0e6;
+            padding: 1.6rem 1rem 0.8rem;
+            text-align: center;
+            font-size: 3.2rem;
+            color: #9f6e42;
+            transition: 0.2s;
+        }
+        .card-img i {
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.1));
+        }
+        .card-info {
+            padding: 1.2rem 1.2rem 1.5rem;
+            text-align: center;
+        }
+        .product-name {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+            color: #2b241f;
+        }
+        .product-category-badge {
+            font-size: 0.7rem;
+            background: #f3e2d4;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin: 0.5rem 0;
+            color: #8b5a36;
+            font-weight: 500;
+        }
+        .price-tag {
+            font-weight: 700;
+            color: #b1622c;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+        .add-hint {
+            font-size: 0.7rem;
+            color: #a7907c;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* modal for mug details */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.75);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fffef7;
+            max-width: 480px;
+            width: 90%;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.3);
+            animation: fadeSlide 0.2s ease;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-icon {
+            font-size: 3.5rem;
+            color: #b77b46;
+            margin-bottom: 0.5rem;
+        }
+        .modal h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+        }
+        .modal p {
+            color: #5b4a3a;
+            margin: 0.8rem 0;
+        }
+        .close-modal {
+            background: #e5d5c4;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+        .customize-btn {
+            background: #b77b46;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            margin-top: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* footer */
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eedbcb;
+            font-size: 0.8rem;
+            color: #ab8b6e;
+        }
+
+        @media (max-width: 680px) {
+            .container { padding: 1rem; }
+            .filter-btn { padding: 0.4rem 1rem; font-size: 0.75rem; }
+            .products-grid { gap: 1rem; }
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg-grain"></div>
+<div class="container">
+    <header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+    <a href="Tshirts.html">T-Shirts</a>
+    <a href="mugs&cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customized your Design</a>
+    <a href="mug&tshirts.html" class="nav-shop">Shop →</a>
+  </div>
+</header>
+
+    <!-- category filters (10+ categories) -->
+    <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-cat="all"><i class="fas fa-border-all"></i> All Mugs</button>
+        <button class="filter-btn" data-cat="classic"><i class="fas fa-mug-saucer"></i> Classic </button>
+        <button class="filter-btn" data-cat="magic"><i class="fas fa-temperature-high"></i> Heat Changing</button>
+        <button class="filter-btn" data-cat="travel"><i class="fas fa-road"></i> Travel Mugs</button>
+        <button class="filter-btn" data-cat="glass"><i class="fas fa-wine-glass-alt"></i> Premium</button>
+        <button class="filter-btn" data-cat="matte"><i class="fas fa-palette"></i> Premium Look</button>
+        <button class="filter-btn" data-cat="couple"><i class="fas fa-heart"></i> Gift Sets</button>
+        <button class="filter-btn" data-cat="photo"><i class="fas fa-camera"></i>  Customized</button>
+        <button class="filter-btn" data-cat="collection"><i class="fas fa-star"></i> Brand Collections</button>
+    </div>
+
+    <!-- dynamic product grid (rendered by js) -->
+    <div id="productsContainer"></div>
+
+    <!-- modal for product details -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon"><i class="fas fa-mug-hot"></i></div>
+            <h3 id="modalName">Classic Sip Mug</h3>
+            <p id="modalDesc">Timeless ceramic mug, perfect for everyday coffee rituals. High-quality print, durable glaze.</p>
+            <p id="modalPrice" style="font-weight:bold; color:#b1622c;"></p>
+            <button class="customize-btn" id="modalCustomizeBtn"><i class="fas fa-pen-fancy"></i> Customize yours</button>
+            <br>
+            <button class="close-modal" id="closeModalBtn">Close</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+  <div class="container">
+    <div class="footer-flex">
+      <div class="footer-block">
+        <h4>ThePrintify</h4>
+        <p>Premium Custom Apparel & Drinkware, Crafted for Everyday Use</p>
+        <p>Bangalore, India</p>
+        <p>hello@theprintify.com</p>
+      </div>
+      <div class="footer-block">
+        <h4>Discover</h4>
+        <a href="fullJourney.html">About us</a>
+        <a href="mug&tshirts.html">Our collections</a>
+        <a href="customized.html">Customized Your Design</a>
+      </div>
+      <div class="footer-block">
+        <h4>Resources</h4>
+        <a href="#">Design guide</a>
+        <a href="#">enquiries</a>
+        <a href="#">Shipping policy</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 ThePrintify — Wear Your Vibe. Sip Your Style.
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+    const mugCatalog = [
+        // Classic / Ceramic (8)
+        { id: 1, name: "Classic Sip Mug", category: "classic", icon: "fas fa-mug-hot", desc: "Smooth ceramic, timeless shape. Dishwasher safe.", price: "₹14.99" },
+        { id: 2, name: "Everyday Brew Mug", category: "classic", icon: "fas fa-coffee", desc: "Generous 11oz size, comfortable handle.", price: "₹15.99" },
+        { id: 3, name: "Pure White Mug", category: "classic", icon: "fas fa-mug-hot", desc: "Minimalist glossy white, perfect for any print.", price: "₹12.99" },
+        { id: 4, name: "Signature Sip Cup", category: "classic", icon: "fas fa-mug-hot", desc: "Elegant curved silhouette, premium finish.", price: "₹16.99" },
+        { id: 5, name: "Daily Comfort Mug", category: "classic", icon: "fas fa-heart", desc: "Ergonomic grip, soft-touch enamel.", price: "₹13.99" },
+        { id: 6, name: "Vintage Stone Mug", category: "classic", icon: "fas fa-mug-hot", desc: "Rustic matte texture, retro vibes.", price: "₹17.99" },
+        { id: 7, name: "Morning Ritual Cup", category: "classic", icon: "fas fa-sun", desc: "Lightweight porcelain, bright and clean.", price: "₹14.49" },
+        { id: 8, name: "Artisan Clay Mug", category: "classic", icon: "fas fa-palette", desc: "Handcrafted feel, reactive glaze.", price: "₹18.99" },
+        // Magic / Heat Changing (7)
+        { id: 9, name: "Magic Reveal Mug", category: "magic", icon: "fas fa-temperature-high", desc: "Heat-activated artwork appears with hot liquid.", price: "₹21.99" },
+        { id: 10, name: "Surprise Sip Mug", category: "magic", icon: "fas fa-magic", desc: "Hidden message emerges when filled.", price: "₹22.99" },
+        { id: 11, name: "Heat Magic Cup", category: "magic", icon: "fas fa-fire", desc: "Color-changing design reveals your style.", price: "₹20.99" },
+        { id: 12, name: "Hidden Story Mug", category: "magic", icon: "fas fa-book-open", desc: "A secret photo appears with warmth.", price: "₹23.99" },
+        { id: 13, name: "Color Shift Mug", category: "magic", icon: "fas fa-fill-drip", desc: "Vibrant gradient transformation.", price: "₹19.99" },
+        { id: 14, name: "Thermo Mood Mug", category: "magic", icon: "fas fa-smile", desc: "Smiley face reveals when hot.", price: "₹18.99" },
+        { id: 15, name: "Mystic Heat Mug", category: "magic", icon: "fas fa-star", desc: "Mystical pattern fades into full color.", price: "₹24.99" },
+        // Travel Mugs (6)
+        { id: 16, name: "GoSip Travel Mug", category: "travel", icon: "fas fa-road", desc: "Leak-proof lid, stainless steel core.", price: "₹24.99" },
+        { id: 17, name: "Wander Cup", category: "travel", icon: "fas fa-hiking", desc: "12oz vacuum insulated, keeps temp hours.", price: "₹26.99" },
+        { id: 18, name: "Sip & Go Mug", category: "travel", icon: "fas fa-bus", desc: "One-handed flip lid, car cup holder fit.", price: "₹22.99" },
+        { id: 19, name: "TravelMate Mug", category: "travel", icon: "fas fa-globe", desc: "Durable powder coat, non-slip base.", price: "₹27.99" },
+        { id: 20, name: "Urban Move Mug", category: "travel", icon: "fas fa-city", desc: "Sleek modern design, double-wall insulation.", price: "₹25.99" },
+        { id: 21, name: "Commuter Elite", category: "travel", icon: "fas fa-train", desc: "Spill-resistant, easy-clean cap.", price: "₹28.99" },
+        // Glass / Premium Mugs (6)
+        { id: 22, name: "Crystal Clear Mug", category: "glass", icon: "fas fa-wine-glass-alt", desc: "Borosilicate glass, crystal transparent.", price: "₹19.99" },
+        { id: 23, name: "Luxe Glass Cup", category: "glass", icon: "fas fa-gem", desc: "Double-walled, elegant & heat resistant.", price: "₹24.99" },
+        { id: 24, name: "Transparent Sip Mug", category: "glass", icon: "fas fa-eye", desc: "Minimalist see-through, modern style.", price: "₹18.99" },
+        { id: 25, name: "Elite Glass Mug", category: "glass", icon: "fas fa-crown", desc: "Ultra-premium clarity, gold rim accent.", price: "₹29.99" },
+        { id: 26, name: "ClearStyle Cup", category: "glass", icon: "fas fa-water", desc: "Lightweight thermal glass.", price: "₹16.99" },
+        { id: 27, name: "Radiant Glass Mug", category: "glass", icon: "fas fa-sun", desc: "Etched design, elegant gift box.", price: "₹22.99" },
+        // Matte / Premium Look (6)
+        { id: 28, name: "Matte Black Mug", category: "matte", icon: "fas fa-palette", desc: "Stealth matte finish, vibrant print contrast.", price: "₹17.99" },
+        { id: 29, name: "Royal Matte Cup", category: "matte", icon: "fas fa-crown", desc: "Deep navy matte, luxury feel.", price: "₹19.99" },
+        { id: 30, name: "Noir Sip Mug", category: "matte", icon: "fas fa-moon", desc: "Sleek all-black, scratch-resistant.", price: "₹18.99" },
+        { id: 31, name: "Elite Matte Mug", category: "matte", icon: "fas fa-gem", desc: "Satin touch, premium ceramic base.", price: "₹20.99" },
+        { id: 32, name: "Bold Brew Mug", category: "matte", icon: "fas fa-coffee", desc: "Charcoal matte, large 15oz capacity.", price: "₹21.99" },
+        { id: 33, name: "Slate Stone Mug", category: "matte", icon: "fas fa-mountain", desc: "Matte grey stone finish, modern edge.", price: "₹19.49" },
+        // Couple / Gift Sets (5)
+        { id: 34, name: "Love Pair Mugs", category: "couple", icon: "fas fa-heart", desc: "Set of two, his & hers heart design.", price: "₹34.99" },
+        { id: 35, name: "Forever Together Cups", category: "couple", icon: "fas fa-hand-holding-heart", desc: "Interlocking halves, perfect anniversary gift.", price: "₹39.99" },
+        { id: 36, name: "His & Her Mug Set", category: "couple", icon: "fas fa-users", desc: "Personalized names, elegant box.", price: "₹36.99" },
+        { id: 37, name: "Bond Brew Mugs", category: "couple", icon: "fas fa-champagne-glasses", desc: "Romantic quotes, coffee for two.", price: "₹32.99" },
+        { id: 38, name: "HeartBeat Cups", category: "couple", icon: "fas fa-heartbeat", desc: "Matching pulse pattern, ceramic duo.", price: "₹37.99" },
+        // Photo / Customized Mugs (5)
+        { id: 39, name: "Memory Mug", category: "photo", icon: "fas fa-camera-retro", desc: "Print any photo, full wrap print.", price: "₹19.99" },
+        { id: 40, name: "PhotoStory Cup", category: "photo", icon: "fas fa-images", desc: "Upload your story, vivid print quality.", price: "₹21.99" },
+        { id: 41, name: "SnapSip Mug", category: "photo", icon: "fas fa-camera", desc: "Quick design, fade-resistant ink.", price: "₹18.99" },
+        { id: 42, name: "Personal Touch Mug", category: "photo", icon: "fas fa-pen-nib", desc: "Add name + special date.", price: "₹20.99" },
+        { id: 43, name: "YourStory Cup", category: "photo", icon: "fas fa-scroll", desc: "Collage or quote, fully custom.", price: "₹22.99" },
+        // Brand Collections / Printify Originals (3)
+        { id: 44, name: "Printify Originals", category: "collection", icon: "fas fa-certificate", desc: "Signature series, exclusive patterns.", price: "₹24.99" },
+        { id: 45, name: "The Expression Series", category: "collection", icon: "fas fa-dragon", desc: "Artistic prints from creators.", price: "₹26.99" },
+        { id: 46, name: "SipStyle Collection", category: "collection", icon: "fas fa-spa", desc: "Zen designs, calming pastels.", price: "₹23.99" }
+    ];
+
+    // Additional best sellers extra mapping
+    const productsContainer = document.getElementById("productsContainer");
+    let activeCategory = "all";
+
+    // render products based on active filter
+    function renderProducts() {
+        let filtered = mugCatalog;
+        if (activeCategory !== "all") {
+            filtered = mugCatalog.filter(mug => mug.category === activeCategory);
+        }
+        if (filtered.length === 0) {
+            productsContainer.innerHTML = `<div style="text-align:center; padding:3rem;">✨ No mugs in this category yet, but we craft anything! ✨</div>`;
+            return;
+        }
+
+        let html = `<div class="products-grid">`;
+        filtered.forEach(mug => {
+            // get friendly category label for badge
+            let catLabel = getCategoryLabel(mug.category);
+            html += `
+                <div class="product-card" data-id="${mug.id}" data-name="${mug.name}" data-desc="${mug.desc}" data-price="${mug.price}" data-icon="${mug.icon}" data-category="${mug.category}">
+                    <div class="card-img">
+                        <i class="${mug.icon}"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="product-name">${mug.name}</div>
+                        <div class="product-category-badge">${catLabel}</div>
+                        <div class="price-tag">${mug.price}</div>
+                        <div class="add-hint"><i class="fas fa-mouse-pointer"></i> click to customize</div>
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        productsContainer.innerHTML = html;
+
+        // attach click events to each product card (open modal)
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const id = parseInt(card.dataset.id);
+                const mugFound = mugCatalog.find(m => m.id === id);
+                if (mugFound) {
+                    openModal(mugFound);
+                }
+            });
+        });
+    }
+
+    function getCategoryLabel(catKey) {
+        const map = {
+            classic: "Classic Ceramic",
+            magic: "Heat Changing",
+            travel: "Travel Mug",
+            glass: "Glass Premium",
+            matte: "Matte Look",
+            couple: "Couple Gift Set",
+            photo: "Photo Custom",
+            collection: "Signature Series"
+        };
+        return map[catKey] || catKey;
+    }
+
+    // modal logic
+    const modal = document.getElementById("productModal");
+    const modalName = document.getElementById("modalName");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalIconElem = document.getElementById("modalIcon");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const modalCustomize = document.getElementById("modalCustomizeBtn");
+
+    function openModal(mug) {
+        modalName.innerText = mug.name;
+        modalDesc.innerText = mug.desc;
+        modalPrice.innerText = mug.price + " · premium print included";
+        modalIconElem.innerHTML = `<i class="${mug.icon}" style="font-size:3.5rem;"></i>`;
+        modal.style.display = "flex";
+        // set custom action
+        modalCustomize.onclick = () => {
+            alert(`✨ Customize your ${mug.name}!\nAdd text, photo or unique artwork. ThePrintify brings your story to life.`);
+            modal.style.display = "none";
+        };
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    // filter event handlers
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.getAttribute('data-cat');
+            renderProducts();
+            // scroll to top of grid smoothly
+            document.getElementById('productsContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // modal close events
+    closeModalBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    // initial render
+    renderProducts();
+
+    // additionally add a little live count badge: total mugs count
+    const footerEl = document.querySelector('footer');
+    const totalMugs = mugCatalog.length;
+    const countSpan = document.createElement('span');
+    countSpan.style.marginLeft = "8px";
+    countSpan.style.fontWeight = "bold";
+    countSpan.innerHTML = `☕ ${totalMugs}+ unique mug designs`;
+    footerEl.insertBefore(countSpan, footerEl.firstChild);
+    
+    // dynamic category availability note
+    console.log(`ThePrintify mug shop loaded: ${totalMugs} premium mug variations — all customizable.`);
+</script>
+</body>
+</html>

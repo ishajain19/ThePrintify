@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>ThePrintify | Premium Custom T-Shirts & Mugs</title>
+  <!-- Fonts: refined serif + sans mix -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fefaf5;
+      font-family: 'Inter', sans-serif;
+      color: #2a241f;
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header Styles */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #fffcf8;
+      border-bottom: 1px solid #f0e4d8;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-text {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1f3b2c, #b56938);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .logo-tag {
+      font-size: 0.75rem;
+      color: #9b8268;
+      display: block;
+      letter-spacing: 0.5px;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .main-nav a {
+      text-decoration: none;
+      color: #5a4a3a;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .main-nav a:hover {
+      color: #b56938;
+    }
+
+    .nav-shop {
+      background: #b56938;
+      color: black !important;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #b56938;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #fef7ef, #f9efe4);
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .btn-primary-custom {
+      display: inline-block;
+      background: #b56938;
+      color: white;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 3rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-primary-custom:hover {
+      background: #9a522e;
+      transform: translateY(-2px);
+    }
+
+    /* Pillars Section */
+    .pillars-section {
+      padding: 5rem 0;
+      background: #fff;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      text-align: center;
+      color: #2a241f;
+      margin-bottom: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .section-subhead {
+      text-align: center;
+      color: #7f6b58;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .hero-right img {
+      width: 100%;
+      border-radius: 1.5rem;
+      height: auto;
+    }
+
+    /* Rotating Carousel Styles - Shows 3 items at a time */
+    .rotating-carousel {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .carousel-container {
+      flex: 1;
+      overflow: hidden;
+      border-radius: 1.5rem;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      gap: 1.5rem;
+    }
+
+    .product-tile {
+      flex: 0 0 calc(33.333% - 1rem);
+      min-width: 0;
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid #f0e4d8;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .product-tile:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
+      border-color: #d6b68a;
+    }
+
+    .product-img-bg {
+      background: linear-gradient(135deg, #faf3ea, #f5e8dc);
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 3rem;
+      color: #b56938;
+    }
+
+    .product-info {
+      padding: 1.2rem;
+      text-align: center;
+    }
+
+    .product-info h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #2a241f;
+    }
+
+    .product-info p {
+      font-size: 0.85rem;
+      color: #7f6b58;
+      line-height: 1.4;
+      margin-bottom: 0.8rem;
+    }
+
+    .product-price {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #b56938;
+      margin-bottom: 0.3rem;
+    }
+
+    .mrp {
+      font-size: 0.8rem;
+      text-decoration: line-through;
+      color: #a58f7a;
+      font-weight: normal;
+      margin-left: 0.5rem;
+    }
+
+    .rating {
+      font-size: 0.75rem;
+      color: #f5b342;
+      margin-bottom: 0.8rem;
+    }
+
+    .rating i {
+      margin-right: 0.2rem;
+    }
+
+    .quick-view {
+      background: transparent;
+      border: 1px solid #b56938;
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #b56938;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .quick-view:hover {
+      background: #b56938;
+      color: white;
+    }
+
+    .carousel-nav {
+      background: white;
+      border: 1px solid #e0cfbf;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #b56938;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+    }
+
+    .carousel-nav:hover {
+      background: #b56938;
+      color: white;
+      border-color: #b56938;
+      transform: scale(1.05);
+    }
+
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin: 2rem 0;
+    }
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #e0cfbf;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .indicator.active {
+      background: #b56938;
+      width: 28px;
+      border-radius: 10px;
+    }
+
+    .auto-rotate-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      background: #b56938;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toggle-btn:hover {
+      background: #9a522e;
+      transform: scale(1.02);
+    }
+
+    .rotate-speed {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: white;
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      border: 1px solid #e0cfbf;
+    }
+
+    .rotate-speed span {
+      font-size: 0.85rem;
+      color: #7f6b58;
+      font-weight: 500;
+    }
+
+    .speed-btn {
+      background: transparent;
+      border: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #7f6b58;
+      font-family: inherit;
+    }
+
+    .speed-btn.active {
+      background: #b56938;
+      color: white;
+    }
+
+    .speed-btn:hover:not(.active) {
+      background: #f0e4d8;
+    }
+
+    /* Story Section */
+    .story-section {
+      padding: 5rem 0;
+      background: #fffcf8;
+    }
+
+    .story-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .story-content h2 {
+      font-size: 2.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-content p {
+      color: #5e4b38;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .btn-outline-story {
+      border: 1px solid #b56938;
+      padding: 0.7rem 1.5rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      color: #b56938;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-outline-story:hover {
+      background: #b56938;
+      color: white;
+    }
+
+    .story-img-box img {
+      width: 100%;
+      border-radius: 1.5rem;
+    }
+
+    /* Testimonial */
+    .testimonial-section {
+      background: #f5ede4;
+      padding: 4rem 0;
+      text-align: center;
+    }
+
+    .testimonial-quote {
+      font-size: 1.5rem;
+      font-style: italic;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      color: #4a3728;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .testimonial-author {
+      color: #9b8268;
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+      padding: 4rem 0;
+      text-align: center;
+      background: #fff;
+    }
+
+    .newsletter-form {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .newsletter-form input {
+      padding: 0.8rem 1.2rem;
+      border: 1px solid #e0cfbf;
+      border-radius: 2rem;
+      width: 280px;
+      font-family: inherit;
+    }
+
+    .newsletter-form button {
+      background: #b56938;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 2rem;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .newsletter-form button:hover {
+      background: #9a522e;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #2a241f;
+      color: #e6d5bd;
+      padding: 3rem 0 1.5rem;
+    }
+
+    .footer-flex {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-block h4 {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .footer-block a {
+      display: block;
+      color: #e6d5bd;
+      text-decoration: none;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .footer-block a:hover {
+      opacity: 1;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(230, 213, 189, 0.2);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 1024px) {
+      .product-tile {
+        flex: 0 0 calc(50% - 0.75rem);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-icon {
+        display: block;
+      }
+      .main-nav {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1rem;
+        border-bottom: 1px solid #f0e4d8;
+      }
+      .main-nav.active {
+        display: flex;
+      }
+      .story-duo {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .product-tile {
+        flex: 0 0 calc(100% - 0rem);
+      }
+      .carousel-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+      }
+      .auto-rotate-controls {
+        gap: 1rem;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+   <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-area">
+    <a href="#" style="text-decoration: none;"><span class="logo-text">ThePrintify</span></a>
+    <span class="logo-tag">Wear Your Vibe. Sip Your Style.</span>
+  </div>
+  <div class="menu-icon" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="main-nav" id="mainNav">
+    <a href="home.html">Home</a>
+    <a href="Tshirts.html">T-Shirts</a>
+    <a href="mugs&cups.html">Mugs & Cups</a>
+    <a href="customized.html">Customize Your Design</a>
+    <a href="mug&tshirts.html" class="nav-shop">Shop →</a>
+  </div>
+</header>
+
+<main>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-inner">
+      <!-- <div class="hero-left">
+        <a href="#" class="btn-primary-custom" id="heroShopBtn">Explore Collection →</a>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- Pillars Section with Images -->
+  <section class="pillars-section">
+    <div class="container">
+      <h2 class="section-title">Rooted in creativity</h2>
+      <div class="section-subhead">We transform your ideas into wearable art and daily essentials that tell your story.</div>
+      <div class="pillars-grid">
+        <div class="hero-right">
+          <img src="Images/4.png" alt="Custom T-Shirts">
+        </div>
+        <div class="hero-right">
+          <img src="Images/5.png" alt="Custom Mugs">
+        </div>
+        <div class="hero-right">
+          <img src="Images/2.png" alt="Custom Design">
+        </div>
+        <div class="hero-right">
+          <img src="Images/3.png" alt="Premium Quality">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rotating Carousel Section - Shows 3 items at a time with auto-rotate -->
+  <section class="products-section" style="padding: 5rem 0;">
+    <div class="container">
+      <h2 class="section-title">Premium Apparel & Drinkware — 30% Off </h2>
+      <div class="section-subhead">Quality you can feel, crafted for comfort and durability — designed to elevate your everyday style with t-shirts, mugs, and cups made to last.</div>
+      
+      <!-- Rotating Carousel -->
+      <div class="rotating-carousel">
+        <button class="carousel-nav prev-btn" id="prevBtn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <div class="carousel-container">
+          <div class="carousel-track" id="carouselTrack">
+            <!-- T-Shirts Category -->
+            <div class="product-tile" data-product="Elite Polo">
+              <div class="product-img-bg"><i class="fas fa-user-tie"></i></div>
+              <div class="product-info">
+                <h4>Elite Polo</h4>
+                <p>Classic pique knit, structured collar, moisture-wicking. Perfect for corporate branding.</p>
+                <div class="product-price">₹1,499 <span class="mrp">₹2,499</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.8 (1,245+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Classic Core Tee">
+              <div class="product-img-bg"><i class="fas fa-tshirt"></i></div>
+              <div class="product-info">
+                <h4>Classic Core Tee</h4>
+                <p>100% combed ring-spun cotton, crew neck, everyday essential. Pre-shrunk for lasting fit.</p>
+                <div class="product-price">₹999 <span class="mrp">₹1,599</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.7 (3,456+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Urban Henley">
+              <div class="product-img-bg"><i class="fas fa-vest"></i></div>
+              <div class="product-info">
+                <h4>Urban Henley</h4>
+                <p>Classic 3-button placket, soft cotton blend, casual elegance for modern style.</p>
+                <div class="product-price">₹1,399 <span class="mrp">₹2,299</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.7 (654+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Street Luxe Tee">
+              <div class="product-img-bg"><i class="fas fa-crown"></i></div>
+              <div class="product-info">
+                <h4>Street Luxe Tee</h4>
+                <p>Oversized silhouette, premium heavy cotton, dropped shoulders for trendy streetwear look.</p>
+                <div class="product-price">₹1,699 <span class="mrp">₹2,899</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.9 (876+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <!-- Mugs & Cups Category -->
+            <div class="product-tile" data-product="Classic Sip Mug">
+              <div class="product-img-bg"><i class="fas fa-mug-hot"></i></div>
+              <div class="product-info">
+                <h4>Classic Sip Mug</h4>
+                <p>Smooth ceramic, timeless shape. Dishwasher safe, perfect for daily coffee rituals.</p>
+                <div class="product-price">₹449 <span class="mrp">₹699</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.8 (2,134+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Magic Reveal Mug">
+              <div class="product-img-bg"><i class="fas fa-temperature-high"></i></div>
+              <div class="product-info">
+                <h4>Magic Reveal Mug</h4>
+                <p>Heat-activated artwork appears with hot liquid. Hidden story reveals with every sip.</p>
+                <div class="product-price">₹599 <span class="mrp">₹999</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.9 (1,567+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="GoSip Travel Mug">
+              <div class="product-img-bg"><i class="fas fa-road"></i></div>
+              <div class="product-info">
+                <h4>GoSip Travel Mug</h4>
+                <p>Leak-proof lid, stainless steel core, keeps drinks hot for hours. Perfect for commuters.</p>
+                <div class="product-price">₹799 <span class="mrp">₹1,299</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.8 (987+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Matte Black Mug">
+              <div class="product-img-bg"><i class="fas fa-palette"></i></div>
+              <div class="product-info">
+                <h4>Matte Black Mug</h4>
+                <p>Sleek matte finish, vibrant print contrast, modern aesthetic for premium feel.</p>
+                <div class="product-price">₹499 <span class="mrp">₹799</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.7 (543+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Memory Mug">
+              <div class="product-img-bg"><i class="fas fa-camera-retro"></i></div>
+              <div class="product-info">
+                <h4>Memory Mug</h4>
+                <p>Print any photo, full wrap print. Your story in every sip, perfect for gifting.</p>
+                <div class="product-price">₹599 <span class="mrp">₹999</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.9 (2,101+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Love Pair Mugs">
+              <div class="product-img-bg"><i class="fas fa-heart"></i></div>
+              <div class="product-info">
+                <h4>Love Pair Mugs</h4>
+                <p>Set of two mugs, his & hers design. Perfect anniversary or wedding gift.</p>
+                <div class="product-price">₹999 <span class="mrp">₹1,499</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.9 (2,456+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Crystal Clear Mug">
+              <div class="product-img-bg"><i class="fas fa-wine-glass-alt"></i></div>
+              <div class="product-info">
+                <h4>Crystal Clear Mug</h4>
+                <p>Borosilicate glass, crystal transparent, heat resistant for elegant tea moments.</p>
+                <div class="product-price">₹549 <span class="mrp">₹899</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.6 (432+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+            
+            <div class="product-tile" data-product="Printify Originals">
+              <div class="product-img-bg"><i class="fas fa-certificate"></i></div>
+              <div class="product-info">
+                <h4>Printify Originals</h4>
+                <p>Signature series, exclusive patterns from artists. Limited edition collectibles.</p>
+                <div class="product-price">₹649 <span class="mrp">₹1,099</span></div>
+                <div class="rating"><i class="fas fa-star"></i> 4.8 (321+ reviews)</div>
+                <button class="quick-view">Quick View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button class="carousel-nav next-btn" id="nextBtn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section class="story-section">
+    <div class="container story-duo">
+      <div class="story-content">
+        <h2>Your Style. Your Print.</h2>
+        <p>ThePrintify is your go-to destination for customized T-shirts and mugs. We turn your ideas into stylish, high-quality products that help you express your personality with confidence.</p>
+        <a href="fullJourney.html" class="btn-outline-story" id="storyReadMore">Read the full journey →</a>
+      </div>
+      <div class="story-img-box">
+        <img src="Images/pic.jpeg" alt="Custom printing studio">
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="testimonial-section">
+    <div class="container">
+      <div class="testimonial-quote">
+        “ThePrintify turned my simple sketch into a stunning t-shirt collection! The quality is exceptional, and the mugs with our wedding photos became the best gifts ever.”
+      </div>
+      <div class="testimonial-author"> Neha Sharma, Noida | repeat customers since 2025</div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container">
+      <h3>Stories from ThePrintify Studio</h3>
+      <p style="opacity: 0.85;">Get design inspiration, exclusive offers & new collection updates.</p>
+      <div class="newsletter-form">
+        <input type="email" id="newsEmail" placeholder="Your email address">
+        <button id="newsSubscribeBtn">Subscribe →</button>
+      </div>
+      <div id="newsMsg" style="margin-top: 18px; font-size: 0.8rem; color: #b56938;"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-flex">
+      <div class="footer-block">
+        <h4>ThePrintify</h4>
+        <p>Premium Custom Apparel & Drinkware, Crafted for Everyday Use</p>
+        <p>Bangalore, India</p>
+        <p>hello@theprintify.com</p>
+      </div>
+      <div class="footer-block">
+        <h4>Discover</h4>
+        <a href="fullJourney.html">About us</a>
+        <a href="mug&tshirts.html">Our collections</a>
+        <a href="customized.html">Customized Your Design</a>
+      </div>
+      <div class="footer-block">
+        <h4>Resources</h4>
+        <a href="#">Design guide</a>
+        <a href="#">enquiries</a>
+        <a href="#">Shipping policy</a>
+      </div>
+      <div class="footer-block">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 ThePrintify — Wear Your Vibe. Sip Your Style.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile Menu Toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mainNav = document.getElementById('mainNav');
+  
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+    });
+  }
+
+  // Newsletter Subscription
+  const newsSubscribeBtn = document.getElementById('newsSubscribeBtn');
+  const newsEmail = document.getElementById('newsEmail');
+  const newsMsg = document.getElementById('newsMsg');
+  
+  if (newsSubscribeBtn) {
+    newsSubscribeBtn.addEventListener('click', () => {
+      const email = newsEmail.value.trim();
+      if (email && email.includes('@')) {
+        newsMsg.innerHTML = '✓ Thanks for subscribing! We\'ll share design inspiration soon.';
+        newsMsg.style.color = '#2e7d32';
+        newsEmail.value = '';
+      } else {
+        newsMsg.innerHTML = 'Please enter a valid email address.';
+        newsMsg.style.color = '#b56938';
+      }
+    });
+  }
+
+  // ==================== ROTATING CAROUSEL (Shows 3 items at a time) ====================
+  class RotatingCarousel {
+    constructor(trackId, options = {}) {
+      this.track = document.getElementById(trackId);
+      this.items = Array.from(this.track.children);
+      this.itemCount = this.items.length;
+      this.currentIndex = 0;
+      this.autoRotateInterval = null;
+      this.isAutoRotating = true;
+      this.rotationSpeed = options.speed || 4000;
+      
+      this.init();
+    }
+    
+    getItemsPerView() {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 768) return 2;
+      return 1;
+    }
+    
+    updateCarousel() {
+      const itemsPerView = this.getItemsPerView();
+      const itemWidth = this.items[0].offsetWidth;
+      const gap = this.getGap();
+      const slideDistance = (itemWidth + gap) * this.currentIndex;
+      this.track.style.transform = `translateX(-${slideDistance}px)`;
+      this.updateIndicators();
+    }
+    
+    getGap() {
+      const trackStyle = window.getComputedStyle(this.track);
+      return parseInt(trackStyle.gap) || 24;
+    }
+    
+    getMaxIndex() {
+      const itemsPerView = this.getItemsPerView();
+      return Math.max(0, this.itemCount - itemsPerView);
+    }
+    
+    next() {
+      const maxIndex = this.getMaxIndex();
+      if (this.currentIndex < maxIndex) {
+        this.currentIndex++;
+      } else {
+        this.currentIndex = 0;
+      }
+      this.updateCarousel();
+    }
+    
+    prev() {
+      const maxIndex = this.getMaxIndex();
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      } else {
+        this.currentIndex = maxIndex;
+      }
+      this.updateCarousel();
+    }
+    
+    goTo(index) {
+      const maxIndex = this.getMaxIndex();
+      this.currentIndex = Math.min(maxIndex, Math.max(0, index));
+      this.updateCarousel();
+    }
+    
+    startAutoRotate() {
+      if (this.autoRotateInterval) clearInterval(this.autoRotateInterval);
+      this.autoRotateInterval = setInterval(() => this.next(), this.rotationSpeed);
+      this.isAutoRotating = true;
+    }
+    
+    stopAutoRotate() {
+      if (this.autoRotateInterval) {
+        clearInterval(this.autoRotateInterval);
+        this.autoRotateInterval = null;
+      }
+      this.isAutoRotating = false;
+    }
+    
+    toggleAutoRotate() {
+      if (this.isAutoRotating) {
+        this.stopAutoRotate();
+      } else {
+        this.startAutoRotate();
+      }
+      this.updateToggleButton();
+    }
+    
+    setSpeed(speed) {
+      this.rotationSpeed = speed;
+      if (this.isAutoRotating) {
+        this.startAutoRotate();
+      }
+    }
+    
+    updateToggleButton() {
+      const toggleBtn = document.getElementById('toggleAutoRotate');
+      if (toggleBtn) {
+        if (this.isAutoRotating) {
+          toggleBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Auto-Rotate';
+        } else {
+          toggleBtn.innerHTML = '<i class="fas fa-play"></i> Start Auto-Rotate';
+        }
+      }
+    }
+    
+    createIndicators() {
+      const container = document.getElementById('carouselIndicators');
+      if (!container) return;
+      
+      const totalPages = this.getMaxIndex() + 1;
+      container.innerHTML = '';
+      
+      for (let i = 0; i < totalPages; i++) {
+        const indicator = document.createElement('div');
+        indicator.classList.add('indicator');
+        indicator.addEventListener('click', () => {
+          this.goTo(i);
+          if (this.isAutoRotating) {
+            this.stopAutoRotate();
+            this.startAutoRotate();
+          }
+        });
+        container.appendChild(indicator);
+      }
+      this.indicators = Array.from(container.children);
+      this.updateIndicators();
+    }
+    
+    updateIndicators() {
+      if (!this.indicators) return;
+      this.indicators.forEach((ind, idx) => {
+        if (idx === this.currentIndex) {
+          ind.classList.add('active');
+        } else {
+          ind.classList.remove('active');
+        }
+      });
+    }
+    
+    handleResize() {
+      const maxIndex = this.getMaxIndex();
+      if (this.currentIndex > maxIndex) {
+        this.currentIndex = maxIndex;
+      }
+      this.updateCarousel();
+      this.createIndicators();
+    }
+    
+    init() {
+      this.createIndicators();
+      this.updateCarousel();
+      this.startAutoRotate();
+      
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          this.prev();
+          if (this.isAutoRotating) {
+            this.stopAutoRotate();
+            this.startAutoRotate();
+          }
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          this.next();
+          if (this.isAutoRotating) {
+            this.stopAutoRotate();
+            this.startAutoRotate();
+          }
+        });
+      }
+      
+      const toggleBtn = document.getElementById('toggleAutoRotate');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => this.toggleAutoRotate());
+      }
+      
+      const speedBtns = document.querySelectorAll('.speed-btn');
+      speedBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          speedBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const speed = parseInt(btn.dataset.speed);
+          this.setSpeed(speed);
+        });
+      });
+      
+      window.addEventListener('resize', () => this.handleResize());
+      
+      this.items.forEach(item => {
+        const quickViewBtn = item.querySelector('.quick-view');
+        if (quickViewBtn) {
+          quickViewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const productName = item.dataset.product || item.querySelector('h4').innerText;
+            alert(`✨ Customize your ${productName}!\n\nAdd your logo, text, photo, or unique design.\n\n✓ Embroidery\n✓ Screen Print\n✓ DTF Print\n✓ Heat Transfer\n✓ Photo Printing\n\nThePrintify brings your vision to life with premium quality.`);
+          });
+        }
+        
+        item.addEventListener('click', () => {
+          const productName = item.dataset.product || item.querySelector('h4').innerText;
+          alert(`✨ Customize your ${productName}!\n\nAdd your logo, text, photo, or unique design.\n\nThePrintify brings your vision to life with premium quality.`);
+        });
+      });
+    }
+  }
+  
+  // Initialize carousel when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    new RotatingCarousel('carouselTrack', { speed: 4000 });
+  });
+</script>
+</body>
+</html>
